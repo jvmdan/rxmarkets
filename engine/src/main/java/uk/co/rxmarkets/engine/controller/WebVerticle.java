@@ -1,11 +1,11 @@
-package uk.co.rxmarkets.engine;
+package uk.co.rxmarkets.engine.controller;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WebVerticle extends AbstractVerticle {
+public class WebVerticle extends AbstractVerticle implements Controller {
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {

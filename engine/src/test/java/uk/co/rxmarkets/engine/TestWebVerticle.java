@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import uk.co.rxmarkets.engine.controller.WebVerticle;
 
 @RunWith(VertxUnitRunner.class)
 public class TestWebVerticle {

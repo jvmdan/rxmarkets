@@ -1,6 +1,7 @@
 package uk.co.rxmarkets.engine;
 
 import io.vertx.core.Vertx;
+import uk.co.rxmarkets.engine.controller.WebVerticle;
 
 public class Engine {
 
