@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package uk.co.rxmarkets.api.extra;
+package uk.co.rxmarkets.api.examples;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;

@@ -2,8 +2,10 @@ package uk.co.rxmarkets.model.assets;
 
 public interface Asset {
 
-    String id();
+    Long getId();
 
-    boolean isActivelyTraded();
+    String getTicker();
+
+    boolean isActive();
 
 }

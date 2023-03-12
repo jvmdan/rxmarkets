@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.extra;
+package uk.co.rxmarkets.api.examples;
 
 import io.smallrye.mutiny.Multi;
 import io.vertx.mutiny.core.Vertx;
@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
 
-@Path("/hello")
+@Path("api/live")
 public class StreamingResource {
 
     @Inject
@@ -18,9 +18,10 @@ public class StreamingResource {
 
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
-    @Path("{name}/streaming")
-    public Multi<String> greeting(String name) {
-        return vertx.periodicStream(2000).toMulti().map(l -> String.format("Hello %s! (%s)%n", name, new Date()));
+    @Path("{market}/{ticker}")
+    public Multi<String> greeting(String market, String ticker) {
+        return vertx.periodicStream(2000).toMulti()
+                .map(l -> String.format("Live Price for %s: £0.00 (%s)%n", ticker, new Date()));
     }
 
 }

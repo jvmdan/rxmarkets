@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.extra;
+package uk.co.rxmarkets.api.examples;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-@Path("/hello")
+@Path("api/static")
 public class VertxJsonResource {
 
     @GET

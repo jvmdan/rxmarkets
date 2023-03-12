@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.extra;
+package uk.co.rxmarkets.api.examples;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;

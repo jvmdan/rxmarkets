@@ -13,12 +13,14 @@ import java.util.List;
 @Data
 public class Equity implements Asset {
 
-    public final Long id;
-    public final String ticker;
-    private boolean active;
+    private final Long id;
+    private final String market;
+
+    private String ticker = "default";
+    private boolean active = true;
 
     public static Uni<List<Equity>> findAll(PgPool client) {
-        return client.query("SELECT id, ticker FROM equities ORDER BY ticker ASC").execute()
+        return client.query("SELECT id, market FROM equities ORDER BY market ASC").execute()
                 .onItem().transform(pgRowSet -> {
                     List<Equity> list = new ArrayList<>(pgRowSet.size());
                     for (Row row : pgRowSet) {
@@ -28,19 +30,28 @@ public class Equity implements Asset {
                 });
     }
 
+    public static Uni<List<Equity>> findByMarket(PgPool client, String market) {
+        return client.preparedQuery("SELECT id, market FROM equities WHERE market = $1").execute(Tuple.of(market))
+                .onItem().transform(pgRowSet -> {
+                    List<Equity> list = new ArrayList<>(pgRowSet.size());
+                    pgRowSet.forEach(row -> list.add(from(row)));
+                    return list;
+                });
+    }
+
     public static Uni<Equity> findById(PgPool client, Long id) {
-        return client.preparedQuery("SELECT id, ticker FROM equities WHERE id = $1").execute(Tuple.of(id))
+        return client.preparedQuery("SELECT id, market FROM equities WHERE id = $1").execute(Tuple.of(id))
                 .onItem().transform(RowSet::iterator)
                 .onItem().transform(iterator -> iterator.hasNext() ? from(iterator.next()) : null);
     }
 
     public Uni<Long> save(PgPool client) {
-        return client.preparedQuery("INSERT INTO equities (ticker) VALUES ($1) RETURNING (id)").execute(Tuple.of(ticker))
+        return client.preparedQuery("INSERT INTO equities (market) VALUES ($1) RETURNING (id)").execute(Tuple.of(market))
                 .onItem().transform(pgRowSet -> pgRowSet.iterator().next().getLong("id"));
     }
 
     public Uni<Boolean> update(PgPool client) {
-        return client.preparedQuery("UPDATE equities SET ticker = $1 WHERE id = $2").execute(Tuple.of(ticker, id))
+        return client.preparedQuery("UPDATE equities SET market = $1 WHERE id = $2").execute(Tuple.of(market, id))
                 .onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
     }
 
@@ -50,17 +61,7 @@ public class Equity implements Asset {
     }
 
     private static Equity from(Row row) {
-        return new Equity(row.getLong("id"), row.getString("ticker"));
-    }
-
-    @Override
-    public String id() {
-        return this.ticker;
-    }
-
-    @Override
-    public boolean isActivelyTraded() {
-        return this.active;
+        return new Equity(row.getLong("id"), row.getString("market"));
     }
 
 }
