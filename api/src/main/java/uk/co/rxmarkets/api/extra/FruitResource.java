@@ -1,22 +1,17 @@
 package uk.co.rxmarkets.api.extra;
 
-import java.net.URI;
-
-import javax.enterprise.event.Observes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import uk.co.rxmarkets.model.Fruit;
+
+import javax.enterprise.event.Observes;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+import java.net.URI;
 
 @Path("fruits")
 public class FruitResource {

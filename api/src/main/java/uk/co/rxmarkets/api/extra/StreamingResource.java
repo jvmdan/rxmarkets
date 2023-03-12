@@ -1,15 +1,14 @@
 package uk.co.rxmarkets.api.extra;
 
-import java.util.Date;
+import io.smallrye.mutiny.Multi;
+import io.vertx.mutiny.core.Vertx;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import io.smallrye.mutiny.Multi;
-import io.vertx.mutiny.core.Vertx;
+import java.util.Date;
 
 @Path("/hello")
 public class StreamingResource {

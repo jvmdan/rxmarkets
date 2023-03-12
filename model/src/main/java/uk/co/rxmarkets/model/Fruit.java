@@ -1,13 +1,13 @@
-package uk.co.rxmarkets.api.extra;
-
-import java.util.ArrayList;
-import java.util.List;
+package uk.co.rxmarkets.model;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fruit {
 

@@ -1,13 +1,5 @@
 package uk.co.rxmarkets.api;
 
-import java.nio.charset.StandardCharsets;
-
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
-import org.jboss.resteasy.reactive.RestQuery;
-
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.file.OpenOptions;
@@ -16,6 +8,12 @@ import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.core.eventbus.EventBus;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import io.vertx.mutiny.ext.web.client.WebClient;
+import org.jboss.resteasy.reactive.RestQuery;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import java.nio.charset.StandardCharsets;
 
 @Path("/api")                        // <1>
 public class VertxResource {

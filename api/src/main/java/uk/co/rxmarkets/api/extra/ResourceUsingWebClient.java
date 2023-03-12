@@ -1,13 +1,13 @@
 package uk.co.rxmarkets.api.extra;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.ext.web.client.WebClient;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
 @Path("/fruit-data")
 public class ResourceUsingWebClient {

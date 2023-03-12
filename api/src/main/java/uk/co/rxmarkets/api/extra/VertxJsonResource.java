@@ -1,10 +1,10 @@
 package uk.co.rxmarkets.api.extra;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
 @Path("/hello")
 public class VertxJsonResource {
