@@ -1,11 +1,11 @@
-package uk.co.rxmarkets.model.opinions;
+package uk.co.rxmarkets.model.ranking;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum Classification {
+public enum Impact {
 
     STRONGLY_POSITIVE(2),
     POSITIVE(1),

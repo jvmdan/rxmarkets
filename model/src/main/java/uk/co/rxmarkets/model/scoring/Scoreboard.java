@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.model.sentiment;
+package uk.co.rxmarkets.model.scoring;
 
 import java.util.Arrays;
 import java.util.Date;

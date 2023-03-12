@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.model.sentiment;
+package uk.co.rxmarkets.model.scoring;
 
 /**
  * An Indicator is an immutable object tying a score value to a sentiment category.
