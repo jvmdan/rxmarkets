@@ -1,9 +1,11 @@
 package uk.co.rxmarkets.model.sources;
 
-import java.net.URI;
+import uk.co.rxmarkets.model.ranking.Ranked;
+
+import java.util.Set;
 
 public interface Source {
 
-    URI getUri();
+    Set<Ranked> getRankedSet();
 
 }

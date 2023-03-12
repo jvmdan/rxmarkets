@@ -6,8 +6,13 @@ package uk.co.rxmarkets.model.ranking;
  *
  * @author Daniel Scarfe
  */
-public interface Ranked {
+public interface Ranked extends Comparable<Impact> {
 
     Impact getImpact();
+
+    @Override
+    default int compareTo(Impact other) {
+        return this.getImpact().compareTo(other);
+    }
 
 }

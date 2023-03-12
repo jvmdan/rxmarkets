@@ -8,9 +8,9 @@ import uk.co.rxmarkets.model.sources.Source;
  * the content of a news article, a comment on social media, a user review or any
  * other form of information that is based upon human thoughts & feelings.
  *
- * @param source         the parent source of the opinion data.
- * @param data           the real-world content, taken directly from the source.
- * @param impact the classification; is the opinion positive or negative?
+ * @param source the parent source of the opinion data.
+ * @param data   the real-world content, taken directly from the source.
+ * @param impact the impact of our data; is the opinion positive or negative?
  * @author Daniel Scarfe
  * @see Fact
  */
