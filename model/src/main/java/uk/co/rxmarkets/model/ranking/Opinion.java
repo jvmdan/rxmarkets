@@ -14,7 +14,11 @@ import uk.co.rxmarkets.model.sources.Source;
  * @author Daniel Scarfe
  * @see Fact
  */
-@Getter
 public record Opinion(Source source, String data, Impact impact) implements Ranked {
+
+    @Override
+    public Impact getImpact() {
+        return this.impact;
+    }
 
 }

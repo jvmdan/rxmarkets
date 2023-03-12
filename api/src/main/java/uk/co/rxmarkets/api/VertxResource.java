@@ -6,6 +6,7 @@ import io.vertx.core.file.OpenOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.core.eventbus.EventBus;
+import io.vertx.mutiny.core.eventbus.Message;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import io.vertx.mutiny.ext.web.client.WebClient;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -51,7 +52,7 @@ public class VertxResource {
     @Path("/hello")
     public Uni<String> hello(@RestQuery String name) {
         return bus.<String>request("greetings", name)
-                .onItem().transform(response -> response.body());
+                .onItem().transform(Message::body);
     }
 
     @GET

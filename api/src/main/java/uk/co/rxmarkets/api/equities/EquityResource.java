@@ -1,10 +1,10 @@
-package uk.co.rxmarkets.api.extra;
+package uk.co.rxmarkets.api.equities;
 
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import uk.co.rxmarkets.model.Fruit;
+import uk.co.rxmarkets.model.assets.Equity;
 
 import javax.enterprise.event.Observes;
 import javax.ws.rs.*;
@@ -13,32 +13,32 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import java.net.URI;
 
-@Path("fruits")
-public class FruitResource {
+@Path("api/equities")
+public class EquityResource {
 
     private final PgPool client;
     private final boolean schemaCreate;
 
-    public FruitResource(PgPool client, @ConfigProperty(name = " myapp.schema.create", defaultValue = "true") boolean schemaCreate) {
+    public EquityResource(PgPool client, @ConfigProperty(name = "equities.schema.create", defaultValue = "true") boolean schemaCreate) {
         this.client = client;
         this.schemaCreate = schemaCreate;
     }
 
-    void initdb(@Observes StartupEvent ev) {
+    void initialise(@Observes StartupEvent ev) {
         if (schemaCreate) {
-            client.query("DROP TABLE IF EXISTS fruits").execute()
-                    .flatMap(r -> client.query("CREATE TABLE fruits (id SERIAL PRIMARY KEY, name TEXT NOT NULL)")
+            client.query("DROP TABLE IF EXISTS equities").execute()
+                    .flatMap(r -> client.query("CREATE TABLE equities (id SERIAL PRIMARY KEY, ticker TEXT NOT NULL)")
                             .execute())
-                    .flatMap(r -> client.query("INSERT INTO fruits (name) VALUES ('Orange')").execute())
-                    .flatMap(r -> client.query("INSERT INTO fruits (name) VALUES ('Pear')").execute())
-                    .flatMap(r -> client.query("INSERT INTO fruits (name) VALUES ('Apple')").execute())
+                    .flatMap(r -> client.query("INSERT INTO equities (ticker) VALUES ('AAPL')").execute())
+                    .flatMap(r -> client.query("INSERT INTO equities (ticker) VALUES ('GOOG')").execute())
+                    .flatMap(r -> client.query("INSERT INTO equities (ticker) VALUES ('MSFT')").execute())
                     .await().indefinitely();
         }
     }
 
     @GET
     public Uni<Response> get() {
-        return Fruit.findAll(client)
+        return Equity.findAll(client)
                 .onItem().transform(Response::ok)
                 .onItem().transform(ResponseBuilder::build);
     }
@@ -46,22 +46,22 @@ public class FruitResource {
     @GET
     @Path("{id}")
     public Uni<Response> getSingle(Long id) {
-        return Fruit.findById(client, id)
-                .onItem().transform(fruit -> fruit != null ? Response.ok(fruit) : Response.status(Status.NOT_FOUND))
+        return Equity.findById(client, id)
+                .onItem().transform(equity -> equity != null ? Response.ok(equity) : Response.status(Status.NOT_FOUND))
                 .onItem().transform(ResponseBuilder::build);
     }
 
     @POST
-    public Uni<Response> create(Fruit fruit) {
-        return fruit.save(client)
-                .onItem().transform(id -> URI.create("/fruits/" + id))
+    public Uni<Response> create(Equity equity) {
+        return equity.save(client)
+                .onItem().transform(id -> URI.create("api/equities/" + id))
                 .onItem().transform(uri -> Response.created(uri).build());
     }
 
     @PUT
     @Path("{id}")
-    public Uni<Response> update(Long id, Fruit fruit) {
-        return fruit.update(client)
+    public Uni<Response> update(Long id, Equity equity) {
+        return equity.update(client)
                 .onItem().transform(updated -> updated ? Status.OK : Status.NOT_FOUND)
                 .onItem().transform(status -> Response.status(status).build());
     }
@@ -69,8 +69,9 @@ public class FruitResource {
     @DELETE
     @Path("{id}")
     public Uni<Response> delete(Long id) {
-        return Fruit.delete(client, id)
+        return Equity.delete(client, id)
                 .onItem().transform(deleted -> deleted ? Status.NO_CONTENT : Status.NOT_FOUND)
                 .onItem().transform(status -> Response.status(status).build());
     }
+
 }

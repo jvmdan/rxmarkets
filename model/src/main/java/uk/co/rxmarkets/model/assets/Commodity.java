@@ -5,7 +5,6 @@ import lombok.Getter;
 /**
  * @param id TODO | How do we identify commodities?
  */
-@Getter
 public record Commodity(String id) implements Asset {
 
     @Override

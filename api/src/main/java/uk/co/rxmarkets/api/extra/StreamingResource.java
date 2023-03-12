@@ -22,4 +22,5 @@ public class StreamingResource {
     public Multi<String> greeting(String name) {
         return vertx.periodicStream(2000).toMulti().map(l -> String.format("Hello %s! (%s)%n", name, new Date()));
     }
+
 }
