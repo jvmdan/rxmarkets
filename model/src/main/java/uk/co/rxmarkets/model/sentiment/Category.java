@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.model.scoring;
+package uk.co.rxmarkets.model.sentiment;
 
 public enum Category {
 

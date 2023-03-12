@@ -1,15 +1,16 @@
 package uk.co.rxmarkets.model.opinions;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import uk.co.rxmarkets.model.Source;
+import uk.co.rxmarkets.model.source.Source;
 
-@RequiredArgsConstructor
-@Getter
-public class Opinion {
-
-    private final Source source;
-    private final String data;
-    private final Classification classification;
+/**
+ * An Opinion represents the smallest piece of data within the system. This may be
+ * the content of a news article, a comment on social media, a user review or
+ * more.
+ * 
+ * @param source
+ * @param data
+ * @param classification
+ */
+public record Opinion(Source source, String data, Classification classification) {
 
 }

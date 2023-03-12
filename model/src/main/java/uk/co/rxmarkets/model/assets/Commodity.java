@@ -1,12 +1,16 @@
 package uk.co.rxmarkets.model.assets;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+/**
+ * @param id TODO | How do we identify commodities?
+ */
 @Getter
-public class Commodity implements Asset {
+public record Commodity(String id) implements Asset {
 
-    private final String id; // TODO | How do we identify commodities?
+    @Override
+    public boolean isActivelyTraded() {
+        return true; // Commodities are always actively traded.
+    }
 
 }

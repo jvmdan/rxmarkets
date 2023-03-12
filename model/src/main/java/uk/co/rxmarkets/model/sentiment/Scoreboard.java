@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.model.scoring;
+package uk.co.rxmarkets.model.sentiment;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -8,14 +8,14 @@ import java.util.Map;
 public class Scoreboard {
 
     private final Date date;
-    private final Map<Category, Double> scoreboard = new HashMap<>();
+    private final Map<Category, Indicator> scoreboard = new HashMap<>(Category.values().length);
 
     public Scoreboard(Date date) {
         this.date = date;
-        Arrays.stream(Category.values()).forEach(c -> this.scoreboard.put(c, 0.0));
+        Arrays.stream(Category.values()).forEach(c -> this.scoreboard.put(c, Indicator.reset(c)));
     }
 
-    public Double getScore(Category forCategory) {
+    public Indicator getScore(Category forCategory) {
         return scoreboard.get(forCategory);
     }
 
