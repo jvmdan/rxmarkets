@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api;
+package uk.co.rxmarkets.api.database;
 
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.mutiny.pgclient.PgPool;

@@ -19,6 +19,7 @@ package uk.co.rxmarkets.model.scoring;
 public record Indicator(double score, int confidence) {
 
     public static Indicator random() {
+        // TODO | This needs to be removed in favour of the RandomEngine implementation.
         final double scale = Math.pow(10, 5);
         final double score = Math.round(Math.random() * scale) / scale;
         final int confidence = (int) Math.floor(Math.random() * 10);
