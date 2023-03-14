@@ -4,6 +4,7 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import uk.co.rxmarkets.model.assets.Equity;
+import uk.co.rxmarkets.model.markets.EquityMarket;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -18,24 +19,24 @@ public class EquityResource {
     private final PgPool client;
 
     @GET
-    public Uni<Response> all() {
-        return Equity.findAll(client)
+    public Uni<Response> getAllMarkets() {
+        return EquityMarket.findAll(client)
                 .onItem().transform(Response::ok)
                 .onItem().transform(ResponseBuilder::build);
     }
 
     @GET
-    @Path("{market}")
-    public Uni<Response> getMarket(String market) {
-        return Equity.findByMarket(client, market)
+    @Path("{mic}")
+    public Uni<Response> getSingleMarket(String mic) {
+        return Equity.findByMarket(client, mic)
                 .onItem().transform(Response::ok)
                 .onItem().transform(ResponseBuilder::build);
     }
 
     @GET
-    @Path("{market}/{id}")
-    public Uni<Response> getSingle(String market, Long id) {
-        return Equity.findById(client, id)
+    @Path("{mic}/{ticker}")
+    public Uni<Response> getSingleEquity(String mic, String ticker) {
+        return Equity.findByTicker(client, mic, ticker)
                 .onItem().transform(equity -> equity != null ? Response.ok(equity) : Response.status(Status.NOT_FOUND))
                 .onItem().transform(ResponseBuilder::build);
     }
@@ -48,18 +49,18 @@ public class EquityResource {
     }
 
     @PUT
-    @Path("{market}/{id}")
-    public Uni<Response> update(Long id, Equity equity) {
+    @Path("{market}/{mic}")
+    public Uni<Response> update(Long mic, Equity equity) {
         return equity.update(client)
                 .onItem().transform(updated -> updated ? Status.OK : Status.NOT_FOUND)
                 .onItem().transform(status -> Response.status(status).build());
     }
 
     @DELETE
-    @Path("{market}/{id}")
-    public Uni<Response> delete(Long id) {
+    @Path("{market}/{mic}")
+    public Uni<Response> delete(Long mic) {
         // TODO | Useful in testing but should not be available in public API.
-        return Equity.delete(client, id)
+        return Equity.delete(client, mic)
                 .onItem().transform(deleted -> deleted ? Status.NO_CONTENT : Status.NOT_FOUND)
                 .onItem().transform(status -> Response.status(status).build());
     }

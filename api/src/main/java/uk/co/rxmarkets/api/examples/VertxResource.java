@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api;
+package uk.co.rxmarkets.api.examples;
 
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;

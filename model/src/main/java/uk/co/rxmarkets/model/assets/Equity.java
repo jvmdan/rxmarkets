@@ -6,32 +6,34 @@ import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import uk.co.rxmarkets.model.scoring.Category;
+import uk.co.rxmarkets.model.scoring.Indicator;
+import uk.co.rxmarkets.model.scoring.Scoreboard;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Data
+@Slf4j
 public class Equity implements Asset {
+
+    private static final String FIND_MARKET_QUERY = "SELECT id, market, ticker FROM equities WHERE market = $1";
+    private static final String FIND_EQUITY_QUERY = "SELECT id, market, ticker FROM equities WHERE market = $1 AND ticker = $2";
 
     private final Long id;
     private final String market;
-
-    private String ticker = "default";
-    private boolean active = true;
-
-    public static Uni<List<Equity>> findAll(PgPool client) {
-        return client.query("SELECT id, market FROM equities ORDER BY market ASC").execute()
-                .onItem().transform(pgRowSet -> {
-                    List<Equity> list = new ArrayList<>(pgRowSet.size());
-                    for (Row row : pgRowSet) {
-                        list.add(from(row));
-                    }
-                    return list;
-                });
-    }
+    private final String ticker;
+    private final boolean active;
+    private final Scoreboard latest;
 
     public static Uni<List<Equity>> findByMarket(PgPool client, String market) {
-        return client.preparedQuery("SELECT id, market FROM equities WHERE market = $1").execute(Tuple.of(market))
+        return client.preparedQuery(FIND_MARKET_QUERY).execute(Tuple.of(market))
                 .onItem().transform(pgRowSet -> {
                     List<Equity> list = new ArrayList<>(pgRowSet.size());
                     pgRowSet.forEach(row -> list.add(from(row)));
@@ -39,8 +41,8 @@ public class Equity implements Asset {
                 });
     }
 
-    public static Uni<Equity> findById(PgPool client, Long id) {
-        return client.preparedQuery("SELECT id, market FROM equities WHERE id = $1").execute(Tuple.of(id))
+    public static Uni<Equity> findByTicker(PgPool client, String market, String ticker) {
+        return client.preparedQuery(FIND_EQUITY_QUERY).execute(Tuple.of(market, ticker))
                 .onItem().transform(RowSet::iterator)
                 .onItem().transform(iterator -> iterator.hasNext() ? from(iterator.next()) : null);
     }
@@ -61,7 +63,12 @@ public class Equity implements Asset {
     }
 
     private static Equity from(Row row) {
-        return new Equity(row.getLong("id"), row.getString("market"));
+        final Long id = row.getLong("id");
+        final String market = row.getString("market");
+        final String ticker = row.getString("ticker");
+        final Equity equity = new Equity(id, market, ticker, true, new Scoreboard());
+        log.info("Fetched {}", equity);
+        return equity;
     }
 
 }

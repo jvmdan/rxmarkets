@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api;
+package uk.co.rxmarkets.api.examples;
 
 import io.quarkus.vertx.ConsumeEvent;
 

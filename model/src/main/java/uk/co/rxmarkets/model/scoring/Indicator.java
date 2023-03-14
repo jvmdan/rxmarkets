@@ -13,14 +13,16 @@ package uk.co.rxmarkets.model.scoring;
  * the number of sources & the number of opinions used to determine the score value.
  *
  * @param score      the sentiment value, in the range of 0-1
- * @param category   the category of market sentiment we have evaluated
  * @param confidence the amount of confidence we have in the score (range 1-10)
  * @author Daniel Scarfe
  */
-public record Indicator(Category category, double score, int confidence) {
+public record Indicator(double score, int confidence) {
 
-    public static Indicator reset(Category c) {
-        return new Indicator(c, 0, 0);
+    public static Indicator random() {
+        final double scale = Math.pow(10, 5);
+        final double score = Math.round(Math.random() * scale) / scale;
+        final int confidence = (int) Math.floor(Math.random() * 10);
+        return new Indicator(score, confidence);
     }
 
 }

@@ -30,6 +30,8 @@ public class EquityConfiguration {
                     .flatMap(r -> client.query("INSERT INTO equities (id, market, ticker) VALUES (6, 'XLON', 'LLOY')").execute())
                     .flatMap(r -> client.query("INSERT INTO equities (id, market, ticker) VALUES (7, 'XLON', 'BARC')").execute())
                     .flatMap(r -> client.query("INSERT INTO equities (id, market, ticker) VALUES (8, 'XLON', 'SHEL')").execute())
+                    .flatMap(r -> client.query("INSERT INTO equities (id, market, ticker) VALUES (9, 'XNYS', 'JPM')").execute())
+                    .flatMap(r -> client.query("INSERT INTO equities (id, market, ticker) VALUES (10, 'XNYS', 'CS')").execute())
                     .await().indefinitely();
         }
     }
