@@ -1,6 +1,6 @@
 package uk.co.rxmarkets.api;
 
-import lombok.RequiredArgsConstructor;
+import uk.co.rxmarkets.engine.RandomEngine;
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
@@ -10,10 +10,9 @@ import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
 
 @ApplicationScoped
-@RequiredArgsConstructor
 public class EngineService {
 
-    private final Engine<Category, Ranked> engine;
+    private final Engine<Category, Ranked> engine = new RandomEngine();
 
     public Indicator evaluate(Category category, Set<Ranked> ranked) {
         final double score = engine.score(category, ranked);

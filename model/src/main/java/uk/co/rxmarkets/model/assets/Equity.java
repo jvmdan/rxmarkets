@@ -7,16 +7,9 @@ import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.model.scoring.Category;
-import uk.co.rxmarkets.model.scoring.Indicator;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
-import java.sql.Date;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Data

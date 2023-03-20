@@ -1,13 +1,11 @@
-package uk.co.rxmarkets.api;
+package uk.co.rxmarkets.engine;
 
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
 
-@ApplicationScoped
 public class RandomEngine implements Engine<Category, Ranked> {
 
     @Override
