@@ -6,15 +6,28 @@ A reactive application for real-time assessment of market sentiment vs. risk in 
 
 Highly concurrent data-driven processing built upon a Quarkus & Vert.x stack using JDK 17. 
 
-## Scope
+## The Concept
+Financial markets are often emotionally driven. In theory, the value of a company should be set by a free market, 
+driven by the underlying business fundamentals. But the free market is operated by humans & we have feelings. 
+Whether consciously or not, your <strong>valuation of an asset is influenced by your opinion</strong> on the greater world around it.
 
-This is the **private** repository which exposes the RESTful API & underlying Java model. The API will be made available to individuals & organisations.
+In practice, the market is very good at collectively valuing a company based upon the information available. But <strong>sometimes it is wrong</strong>. And when it is wrong, this is where we can capitalise and make money. RxMarkets make use of <strong>advanced data science techniques</strong> to provide a platform for identifying anomolies in the current price of tradable assets.
 
-The repository also contains the underlying proprietry analysis engine. This is a server-side environment not available for public consumption.
+## Analysing Sentiment
+Markets being wrong is often a result of <strong>market sentiment</strong>. Human emotions muddy decision making, 
+and prices are affected accordingly. For example, a plane crash will often cause airline stocks to dip immediately
+because industry sentiment changes overnight. The underlying need for air travel does not. The airlines keep selling tickets, keep making profits, and the 'true' valuation momentarily drifts apart from the current market price. 
 
-In due course, a valid API token will be required to access the product. A user or organisation need to buy a licence. 
+Now that is an obvious example & you are unlikely to be able to capitalise on something so predictable. But what if there are thousands of assets trading every day that are <strong>undervalued or overvalued</strong> as a result of unconcious bias affecting asset prices? If you can detect such situations, you can profit from it.
 
-During the product beta, a free trial option shall be made available. 
+Financial organisations (such as hedge funds) know this and so they attempt to measure sentiment in a number of ways. Until now, such financial modelling tools were not available to the public. For a large part, their data analysis is built upon proprietary data collection techniques & processed manually. This is slow, cumbersome & prone to error.
+
+## Our Product
+We aim to do better. We use a proprietary <strong>artificial intelligence</strong> (AI) engine to analyse <strong>hundreds of thousands</strong> of pieces of data <strong>every single day</strong>. Using this information, we provide a platform for quantifying & monitoring sentiment across a total of <strong>8 categories</strong>. Such categories include; industry sentiment, political exposure, confidence in board, employee satisfaction & more.
+
+The autonomous aggregation of this data allows our customers to detect (and capitalise on) anomolies in pricing due to sudden changes in market sentiment. Our platform is <strong>reactive</strong>, meaning that we can assess the market sentiment of an asset <strong>right now</strong> and act upon it. 
+
+We provide a web platform for viewing the data, along with a comprehensive API for wiring into existing financial modelling tools. This makes <strong>RxMarkets</strong> a viable option for individual traders & investment organisations alike. 
 
 ## Prerequisites
 
