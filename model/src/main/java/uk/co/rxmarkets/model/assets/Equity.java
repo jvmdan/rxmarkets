@@ -17,7 +17,10 @@ import java.util.List;
 public class Equity implements Asset {
 
     private static final String FIND_MARKET_QUERY = "SELECT id, market, ticker FROM equities WHERE market = $1";
-    private static final String FIND_EQUITY_QUERY = "SELECT id, market, ticker FROM equities WHERE market = $1 AND ticker = $2";
+    private static final String FIND_EQUITY_QUERY = "SELECT id, market, ticker, active FROM equities WHERE market = $1 AND ticker = $2";
+    private static final String SAVE_EQUITY_QUERY = "INSERT INTO equities (market, ticker, active) VALUES ($1, $2, $3) RETURNING (id)";
+    private static final String UPDATE_EQUITY_QUERY = "UPDATE equities SET market = $1 WHERE id = $2";
+    private static final String DELETE_EQUITY_QUERY = "DELETE FROM equities WHERE id = $1";
 
     private final Long id;
     private final String market;
@@ -41,17 +44,17 @@ public class Equity implements Asset {
     }
 
     public Uni<Long> save(PgPool client) {
-        return client.preparedQuery("INSERT INTO equities (market) VALUES ($1) RETURNING (id)").execute(Tuple.of(market))
+        return client.preparedQuery(SAVE_EQUITY_QUERY).execute(Tuple.of(market, ticker, active))
                 .onItem().transform(pgRowSet -> pgRowSet.iterator().next().getLong("id"));
     }
 
     public Uni<Boolean> update(PgPool client) {
-        return client.preparedQuery("UPDATE equities SET market = $1 WHERE id = $2").execute(Tuple.of(market, id))
+        return client.preparedQuery(UPDATE_EQUITY_QUERY).execute(Tuple.of(market, id))
                 .onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
     }
 
     public static Uni<Boolean> delete(PgPool client, Long id) {
-        return client.preparedQuery("DELETE FROM equities WHERE id = $1").execute(Tuple.of(id))
+        return client.preparedQuery(DELETE_EQUITY_QUERY).execute(Tuple.of(id))
                 .onItem().transform(pgRowSet -> pgRowSet.rowCount() == 1);
     }
 
@@ -59,7 +62,9 @@ public class Equity implements Asset {
         final Long id = row.getLong("id");
         final String market = row.getString("market");
         final String ticker = row.getString("ticker");
-        final Equity equity = new Equity(id, market, ticker, true, Scoreboard.random());
+        final Boolean active = row.getBoolean("active");
+        final Scoreboard scoreboard = Scoreboard.random();
+        final Equity equity = new Equity(id, market, ticker, active, scoreboard);
         log.info("Fetched {}", equity);
         return equity;
     }

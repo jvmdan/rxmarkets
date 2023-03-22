@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.api.EngineService;
+import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.ranking.Opinion;
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
@@ -16,6 +17,7 @@ import uk.co.rxmarkets.model.scoring.Scoreboard;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -50,7 +52,14 @@ public class StaticDataResource {
                             });
 
                     // Trigger the engine to evaluate the dataset in all categories.
-                    return engineService.evaluate(dataSet);
+                    final Scoreboard result = engineService.evaluate(dataSet);
+
+                    // Fire & forget the "persist" event with an updated Equity object.
+                    final String ticker = equity.toUpperCase(Locale.ROOT);
+                    final Equity update = new Equity(123L, "XLON", ticker, true, result);
+                    bus.requestAndForget("persist", update);
+
+                    return result;
                 });
     }
 

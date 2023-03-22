@@ -22,7 +22,6 @@ public class DefaultEngine implements Engine<Category, Ranked> {
 
     @Override
     public Indicator score(Category category, Set<Ranked> ranked) {
-
         // Calculate the lower & upper scoring bounds for our data set.
         final int dataSize = ranked.size();
         final Map<Ranked, Impact> weightedData = new HashMap<>(dataSize);
