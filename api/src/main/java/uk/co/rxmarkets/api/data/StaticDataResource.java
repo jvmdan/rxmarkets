@@ -38,8 +38,8 @@ public class StaticDataResource {
      */
     @GET
     @Path("/trigger")
-    public Uni<Scoreboard> trigger() {
-        final String exampleFile = "cs-tweets.json";
+    public Uni<Scoreboard> trigger(@RestQuery String equity) {
+        final String exampleFile = equity + "-tweets.json";
         return bus.<JsonArray>request("tweets", exampleFile)
                 .onItem().transform(message -> {
                     // Pull the dataset out from the static file of tweets.
