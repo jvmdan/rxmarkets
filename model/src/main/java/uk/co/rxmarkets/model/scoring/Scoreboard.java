@@ -22,4 +22,8 @@ public class Scoreboard {
         return scoreboard.get(forCategory);
     }
 
+    public void setScore(Category c, Indicator i) {
+        this.scoreboard.put(c, i);
+    }
+
 }

@@ -9,9 +9,15 @@ import lombok.RequiredArgsConstructor;
 import javax.enterprise.context.ApplicationScoped;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The StaticDataService is a singleton service available within the application context,
+ * that listens for events on the bus and processes static data accordingly. In this case,
+ * we deal only with local sources of information, returning them back to the caller
+ * as a JsonArray containing multiple JsonObjects.
+ */
 @ApplicationScoped
 @RequiredArgsConstructor
-public class StaticService {
+public class StaticDataService {
 
     private final Vertx vertx;
 
