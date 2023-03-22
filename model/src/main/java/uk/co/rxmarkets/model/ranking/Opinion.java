@@ -1,5 +1,6 @@
 package uk.co.rxmarkets.model.ranking;
 
+import lombok.Getter;
 import uk.co.rxmarkets.model.sources.Source;
 
 /**
