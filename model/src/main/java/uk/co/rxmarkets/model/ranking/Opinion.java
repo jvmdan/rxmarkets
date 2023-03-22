@@ -9,15 +9,9 @@ import uk.co.rxmarkets.model.sources.Source;
  *
  * @param source the parent source of the opinion data.
  * @param data   the real-world content, taken directly from the source.
- * @param impact the impact of our data; is the opinion positive or negative?
  * @author Daniel Scarfe
  * @see Fact
  */
-public record Opinion(String source, String data, Impact impact) implements Ranked {
-
-    @Override
-    public Impact getImpact() {
-        return this.impact;
-    }
+public record Opinion(String source, String data) implements Ranked {
 
 }

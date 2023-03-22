@@ -9,15 +9,9 @@ import uk.co.rxmarkets.model.sources.Source;
  *
  * @param source the parent source of the factual data.
  * @param data   the real-world content, taken directly from the source.
- * @param impact the impact of our data; is the fact positive or negative?
  * @author Daniel Scarfe
  * @see Opinion
  */
-public record Fact(Source source, Number data, Impact impact) implements Ranked {
-
-    @Override
-    public Impact getImpact() {
-        return this.impact;
-    }
+public record Fact(Source source, Number data) implements Ranked {
 
 }

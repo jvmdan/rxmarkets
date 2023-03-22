@@ -2,6 +2,7 @@ package uk.co.rxmarkets.model;
 
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
+import uk.co.rxmarkets.model.scoring.Indicator;
 
 import java.util.Set;
 
@@ -16,8 +17,6 @@ import java.util.Set;
  */
 public interface Engine<C extends Category, R extends Ranked> {
 
-    double score(C category, Set<R> ranked);
-
-    int confidence(C category, Set<R> ranked);
+    Indicator score(C category, Set<R> ranked);
 
 }

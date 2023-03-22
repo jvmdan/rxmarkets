@@ -59,7 +59,7 @@ public class Equity implements Asset {
         final Long id = row.getLong("id");
         final String market = row.getString("market");
         final String ticker = row.getString("ticker");
-        final Equity equity = new Equity(id, market, ticker, true, new Scoreboard());
+        final Equity equity = new Equity(id, market, ticker, true, Scoreboard.random());
         log.info("Fetched {}", equity);
         return equity;
     }

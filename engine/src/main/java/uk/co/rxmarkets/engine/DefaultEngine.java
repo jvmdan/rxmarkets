@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
+import uk.co.rxmarkets.model.scoring.Indicator;
 
 import java.util.Set;
 
@@ -18,15 +19,9 @@ import java.util.Set;
 public class DefaultEngine implements Engine<Category, Ranked> {
 
     @Override
-    public double score(Category category, Set<Ranked> ranked) {
+    public Indicator score(Category category, Set<Ranked> ranked) {
         log.info("Scoring {} using {} data points...", category.name(), ranked.size());
-        return 0;
-    }
-
-    @Override
-    public int confidence(Category category, Set<Ranked> ranked) {
-        log.info("Ascertaining confidence in {} score using {} data points...", category.name(), ranked.size());
-        return 0;
+        return new Indicator(0, 0);
     }
 
 }

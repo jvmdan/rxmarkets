@@ -9,16 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.api.EngineService;
-import uk.co.rxmarkets.model.ranking.Impact;
 import uk.co.rxmarkets.model.ranking.Opinion;
 import uk.co.rxmarkets.model.ranking.Ranked;
-import uk.co.rxmarkets.model.scoring.Category;
-import uk.co.rxmarkets.model.scoring.Indicator;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,16 +46,11 @@ public class StaticDataResource {
                             .forEach(e -> {
                                 final String source = e.getString("author");
                                 final String data = e.getString("data");
-                                dataSet.add(new Opinion(source, data, Impact.NEUTRAL));
+                                dataSet.add(new Opinion(source, data));
                             });
 
                     // Trigger the engine to evaluate the dataset in all categories.
-                    final Scoreboard scoreboard = new Scoreboard();
-                    Arrays.stream(Category.values()).forEach(c -> {
-                        Indicator i = engineService.evaluate(c, dataSet);
-                        scoreboard.setScore(c, i);
-                    });
-                    return scoreboard;
+                    return engineService.evaluate(dataSet);
                 });
     }
 
