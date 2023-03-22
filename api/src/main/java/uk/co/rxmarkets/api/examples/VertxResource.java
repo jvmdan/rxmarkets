@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.core.eventbus.EventBus;
 import io.vertx.mutiny.core.eventbus.Message;
+import io.vertx.mutiny.core.file.AsyncFile;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import io.vertx.mutiny.ext.web.client.WebClient;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -40,7 +41,7 @@ public class VertxResource {
     @Path("/book")
     public Multi<String> readLargeFile() {
         return vertx.fileSystem().open("book.txt", new OpenOptions().setRead(true))
-                .onItem().transformToMulti(file -> file.toMulti())
+                .onItem().transformToMulti(AsyncFile::toMulti)
                 .onItem().transform(content -> content.toString(StandardCharsets.UTF_8)
                         + "\n------------\n");
     }
