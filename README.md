@@ -1,10 +1,8 @@
-# rxmarkets
+# RxMarkets
 
 ## Introduction 
 
-A reactive application for real-time assessment of market sentiment vs. risk in equity trading.
-
-Highly concurrent data-driven processing built upon a Quarkus & Vert.x stack using JDK 17. 
+A reactive application for real-time assessment of market sentiment vs. risk in equity trading. Highly concurrent data-driven processing built upon a Quarkus & Vert.x stack using JDK 17. 
 
 ## The Concept
 Financial markets are often emotionally driven. In theory, the value of a company should be set by a free market, 
