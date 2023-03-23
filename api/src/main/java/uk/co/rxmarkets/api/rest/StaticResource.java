@@ -58,7 +58,7 @@ public class StaticResource {
 
                     // Fire & forget the "persist" event with an updated Equity object.
                     final String ticker = equity.toUpperCase(Locale.ROOT);
-                    final Equity update = new Equity(-1L, "XLON", ticker, true, result);
+                    final Equity update = new Equity(123L, "XLON", ticker, true, result);
                     bus.requestAndForget("persist", update);
 
                     return result;

@@ -2,6 +2,7 @@ package uk.co.rxmarkets.api.events;
 
 import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.mutiny.Uni;
+import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.api.services.PersistenceService;

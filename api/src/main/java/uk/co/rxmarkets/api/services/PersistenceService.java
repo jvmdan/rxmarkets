@@ -8,6 +8,8 @@ import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @ApplicationScoped
@@ -23,21 +25,18 @@ public class PersistenceService {
     }
 
     public Uni<Long> createOrUpdate(String mic, String ticker, Scoreboard scoreboard) {
-        return Equity.findByTicker(client, mic, ticker)
-                .onItem().transform(equity -> (equity != null) ?
-                        update(equity, scoreboard) : create(mic, ticker, scoreboard));
+        return Equity.findByTicker(client, mic, ticker).flatMap(equity ->
+                (equity != null) ? update(equity, scoreboard) : create(mic, ticker, scoreboard));
     }
 
-    private Long create(String mic, String ticker, Scoreboard scoreboard) {
-        final Equity equity = new Equity(-1L, mic, ticker, true, scoreboard);
-        final Uni<Long> result = equity.save(client);
-        return -1L; // TODO | Return the generated ID without blocking thread.
+    private Uni<Long> create(String mic, String ticker, Scoreboard scoreboard) {
+        final Equity equity = new Equity(123L, mic, ticker, true, scoreboard);
+        return equity.save(client);
     }
 
-    private Long update(Equity equity, Scoreboard scoreboard) {
+    private Uni<Long> update(Equity equity, Scoreboard scoreboard) {
         equity.setLatest(scoreboard);
-        equity.save(client);
-        return equity.getId();
+        return equity.save(client);
     }
 
 }
