@@ -8,8 +8,6 @@ import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @ApplicationScoped
