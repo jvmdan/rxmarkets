@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.examples;
+package examples;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.persistence;
+package uk.co.rxmarkets.api.events;
 
 import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.mutiny.Uni;
@@ -12,7 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
-public class PersistenceService {
+public class PersistenceEvents {
 
     private final PgPool client;
 

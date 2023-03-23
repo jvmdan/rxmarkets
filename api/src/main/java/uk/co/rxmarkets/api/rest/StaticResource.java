@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.data;
+package uk.co.rxmarkets.api.rest;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonArray;
@@ -23,7 +23,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Path("api/static")
 @Slf4j
-public class StaticDataResource {
+public class StaticResource {
 
     private final EventBus bus;
     private final EngineService engineService;

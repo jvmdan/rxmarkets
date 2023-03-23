@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.equities;
+package uk.co.rxmarkets.api.rest;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;

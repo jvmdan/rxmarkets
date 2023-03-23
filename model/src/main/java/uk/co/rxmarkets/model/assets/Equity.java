@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class Equity implements Asset {
 
-    private static final String FIND_MARKET_QUERY = "SELECT id, market, ticker FROM equities WHERE market = $1";
+    private static final String FIND_MARKET_QUERY = "SELECT id, market, ticker, active FROM equities WHERE market = $1";
     private static final String FIND_EQUITY_QUERY = "SELECT id, market, ticker, active FROM equities WHERE market = $1 AND ticker = $2";
     private static final String SAVE_EQUITY_QUERY = "INSERT INTO equities (market, ticker, active) VALUES ($1, $2, $3) RETURNING (id)";
     private static final String UPDATE_EQUITY_QUERY = "UPDATE equities SET market = $1 WHERE id = $2";

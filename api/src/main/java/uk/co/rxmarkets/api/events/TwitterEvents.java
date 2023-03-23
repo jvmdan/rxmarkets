@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.data;
+package uk.co.rxmarkets.api.events;
 
 import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.mutiny.Uni;
@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  */
 @ApplicationScoped
 @RequiredArgsConstructor
-public class StaticDataService {
+public class TwitterEvents {
 
     private final Vertx vertx;
 
