@@ -13,6 +13,10 @@ import uk.co.rxmarkets.model.sources.Source;
  * @author Daniel Scarfe
  * @see Opinion
  */
-public record Fact(Source source, Number data) implements Ranked {
+public record Fact(Source source, String data) implements Ranked {
 
+    @Override
+    public String getData() {
+        return data;
+    }
 }

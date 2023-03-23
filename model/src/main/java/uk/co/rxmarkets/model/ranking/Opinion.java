@@ -15,4 +15,8 @@ import uk.co.rxmarkets.model.sources.Source;
  */
 public record Opinion(String source, String data) implements Ranked {
 
+    @Override
+    public String getData() {
+        return data;
+    }
 }
