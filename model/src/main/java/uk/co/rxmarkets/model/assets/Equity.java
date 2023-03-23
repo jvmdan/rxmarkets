@@ -5,6 +5,7 @@ import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 @Slf4j
 public class Equity implements Asset {
 
@@ -26,7 +28,7 @@ public class Equity implements Asset {
     private final String market;
     private final String ticker;
     private final boolean active;
-    private final Scoreboard latest;
+    private Scoreboard latest;
 
     public static Uni<List<Equity>> findByMarket(PgPool client, String market) {
         return client.preparedQuery(FIND_MARKET_QUERY).execute(Tuple.of(market))

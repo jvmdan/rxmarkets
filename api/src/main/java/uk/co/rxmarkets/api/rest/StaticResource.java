@@ -5,10 +5,12 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.core.eventbus.EventBus;
 import io.vertx.mutiny.core.eventbus.Message;
+import io.vertx.mutiny.sqlclient.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestQuery;
-import uk.co.rxmarkets.api.EngineService;
+import uk.co.rxmarkets.api.services.EngineService;
+import uk.co.rxmarkets.api.services.PersistenceService;
 import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.ranking.Opinion;
 import uk.co.rxmarkets.model.ranking.Ranked;
@@ -56,7 +58,7 @@ public class StaticResource {
 
                     // Fire & forget the "persist" event with an updated Equity object.
                     final String ticker = equity.toUpperCase(Locale.ROOT);
-                    final Equity update = new Equity(123L, "XLON", ticker, true, result);
+                    final Equity update = new Equity(-1L, "XLON", ticker, true, result);
                     bus.requestAndForget("persist", update);
 
                     return result;

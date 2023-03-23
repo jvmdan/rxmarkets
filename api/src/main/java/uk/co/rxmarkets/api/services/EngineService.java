@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api;
+package uk.co.rxmarkets.api.services;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.engine.DefaultEngine;
