@@ -5,6 +5,8 @@ import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;
+import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.ranking.Ranked;
@@ -18,20 +20,33 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 @Slf4j
+@Getter
 public class OpenAiEngine implements Engine<Category, Ranked> {
 
-    private static final String OPENAI_MODEL = "gpt-3.5-turbo";
-
+    private final String model;
+    private final String token;
     private final String prompt;
     private final OpenAiService service;
 
     public OpenAiEngine() {
-        this.prompt = loadStringFromResourceFile("prompt.txt");
-        String test = loadStringFromResourceFile("token.txt");
-        this.service = new OpenAiService(test);
+        final Properties properties = loadProperties();
+        this.model = properties.getProperty("model");
+        this.token = properties.getProperty("token");
+        this.prompt = properties.getProperty("prompt");
+        this.service = new OpenAiService(token);
+    }
+
+    @SneakyThrows
+    private static Properties loadProperties() {
+        final Properties prop = new Properties();
+        try (InputStream is = OpenAiEngine.class.getClassLoader().getResourceAsStream("openai.properties")) {
+            prop.load(is);
+            return prop;
+        }
     }
 
     @Override
@@ -48,7 +63,7 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
         messages.add(new ChatMessage("user", message));
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(messages)
-                .model(OPENAI_MODEL)
+                .model(model)
                 .build();
         ChatCompletionResult completion = service.createChatCompletion(completionRequest);
         ChatCompletionChoice chatCompletionChoice = completion.getChoices().stream().findFirst().orElseThrow();
@@ -60,24 +75,6 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
             log.warn("Could not parse response: {} the original request data was: {}", reply, message);
         }
         return result;
-    }
-
-    private static String loadStringFromResourceFile(String fileName) {
-        final StringBuilder contentBuilder = new StringBuilder();
-        try (InputStream is = OpenAiEngine.class.getClassLoader().getResourceAsStream(fileName)) {
-            assert is != null;
-            try (InputStreamReader input = new InputStreamReader(is, StandardCharsets.UTF_8);
-                 BufferedReader buf = new BufferedReader(input)) {
-                String line;
-                while ((line = buf.readLine()) != null) {
-                    contentBuilder.append(line).append(System.lineSeparator());
-                }
-            }
-        } catch (IOException e) {
-            log.error("Error while reading the file: {}", fileName);
-            e.printStackTrace();
-        }
-        return contentBuilder.toString().replace("\n", "").replace("\r", "");
     }
 
 }
