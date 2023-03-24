@@ -5,6 +5,7 @@ import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.service.OpenAiService;
+import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
@@ -19,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 public class OpenAiEngine implements Engine<Category, Ranked> {
 
-    final OpenAiService service;
-    final String prompt;
+    private static final String OPENAI_MODEL = "gpt-3.5-turbo";
 
-    public OpenAiEngine(){
+    private final String prompt;
+    private final OpenAiService service;
+
+    public OpenAiEngine() {
         this.prompt = loadStringFromResourceFile("prompt.txt");
         String test = loadStringFromResourceFile("token.txt");
         this.service = new OpenAiService(test);
@@ -38,13 +42,13 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
         return new Indicator(scores.stream().mapToDouble(Double::doubleValue).average().orElse(0.0), 1);
     }
 
-    private Double generateScore(Category category, String message){
+    private Double generateScore(Category category, String message) {
         List<ChatMessage> messages = new ArrayList<>();
         messages.add(new ChatMessage("system", prompt + " " + category.getDescription()));
         messages.add(new ChatMessage("user", message));
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(messages)
-                .model("gpt-3.5-turbo")
+                .model(OPENAI_MODEL)
                 .build();
         ChatCompletionResult completion = service.createChatCompletion(completionRequest);
         ChatCompletionChoice chatCompletionChoice = completion.getChoices().stream().findFirst().orElseThrow();
@@ -52,30 +56,28 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
         double result = -1;
         try {
             result = Double.parseDouble(reply);
-        } catch (Exception e){
-            System.out.println("Could not parse response: " + reply + " the original request data was: "+ message);
+        } catch (Exception e) {
+            log.warn("Could not parse response: {} the original request data was: {}", reply, message);
         }
         return result;
     }
 
     private static String loadStringFromResourceFile(String fileName) {
-        StringBuilder contentBuilder = new StringBuilder();
-
-        try (InputStream inputStream = OpenAiEngine.class.getClassLoader().getResourceAsStream(fileName)) {
-            assert inputStream != null;
-            try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-
+        final StringBuilder contentBuilder = new StringBuilder();
+        try (InputStream is = OpenAiEngine.class.getClassLoader().getResourceAsStream(fileName)) {
+            assert is != null;
+            try (InputStreamReader input = new InputStreamReader(is, StandardCharsets.UTF_8);
+                 BufferedReader buf = new BufferedReader(input)) {
                 String line;
-                while ((line = bufferedReader.readLine()) != null) {
+                while ((line = buf.readLine()) != null) {
                     contentBuilder.append(line).append(System.lineSeparator());
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error while reading the file: " + fileName);
+            log.error("Error while reading the file: {}", fileName);
             e.printStackTrace();
         }
-
         return contentBuilder.toString().replace("\n", "").replace("\r", "");
     }
+
 }

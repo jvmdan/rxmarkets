@@ -26,6 +26,7 @@
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.26</lombok.version>
+        <openai.version>0.11.1</openai.version>
     </properties>
 
     <build>
