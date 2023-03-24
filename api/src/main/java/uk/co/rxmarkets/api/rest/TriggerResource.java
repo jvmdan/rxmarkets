@@ -1,6 +1,7 @@
 package uk.co.rxmarkets.api.rest;
 
 import io.smallrye.mutiny.Uni;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.core.eventbus.EventBus;
@@ -33,6 +34,10 @@ public class TriggerResource {
     @GET
     public Uni<String> trigger(@RestQuery String equity) {
         final String exampleFile = equity + "-tweets.json";
+
+        // Configure the delivery options with a higher timeout
+        DeliveryOptions options = new DeliveryOptions().setSendTimeout(360_000); // 360,000 milliseconds (360 seconds)
+
         return bus.<JsonArray>request("tweets", exampleFile)
                 .onItem().transform(message -> {
                     // Pull the dataset out from the static file of tweets.
@@ -49,7 +54,7 @@ public class TriggerResource {
                     // Trigger the engine to evaluate the dataset in all categories.
                     final String ticker = equity.toUpperCase(Locale.ROOT);
                     final EngineRequest request = new EngineRequest("XLON", ticker, dataSet);
-                    bus.requestAndForget("evaluate", request);
+                    bus.requestAndForget("evaluate", request, options);
                     return "OK";
                 });
     }
