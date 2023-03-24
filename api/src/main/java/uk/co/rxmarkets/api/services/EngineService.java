@@ -2,6 +2,7 @@ package uk.co.rxmarkets.api.services;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.engine.OpenAiEngine;
+import uk.co.rxmarkets.engine.RandomEngine;
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
