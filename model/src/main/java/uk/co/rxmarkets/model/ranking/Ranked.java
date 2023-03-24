@@ -7,5 +7,7 @@ package uk.co.rxmarkets.model.ranking;
  * @author Daniel Scarfe
  */
 public interface Ranked {
+
     String getData();
+
 }

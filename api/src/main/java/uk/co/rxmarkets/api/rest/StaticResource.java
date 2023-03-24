@@ -58,7 +58,6 @@ public class StaticResource {
                     final String ticker = equity.toUpperCase(Locale.ROOT);
                     final Equity update = new Equity(123L, "XLON", ticker, true, result);
                     bus.requestAndForget("persist", update);
-
                     return result;
                 });
     }

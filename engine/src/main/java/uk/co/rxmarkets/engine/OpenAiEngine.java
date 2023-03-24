@@ -13,11 +13,7 @@ import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
 import uk.co.rxmarkets.model.scoring.Indicator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -38,6 +34,7 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
         this.token = properties.getProperty("token");
         this.prompt = properties.getProperty("prompt");
         this.service = new OpenAiService(token);
+        log.info("Configured OpenAI with \"{}\" model", model);
     }
 
     @SneakyThrows
@@ -51,10 +48,13 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
 
     @Override
     public Indicator score(Category category, Set<Ranked> ranked) {
+        log.info("Scoring {} across {} data points...", category.name(), ranked.size());
         List<Double> scores = ranked.stream()
                 .map(message -> generateScore(category, message.getData()))
                 .filter(score -> score != -1).toList();
-        return new Indicator(scores.stream().mapToDouble(Double::doubleValue).average().orElse(0.0), 1);
+        double average = scores.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        log.info("Average score for {}: {}", category.name(), average);
+        return new Indicator(average, 1);
     }
 
     private Double generateScore(Category category, String message) {

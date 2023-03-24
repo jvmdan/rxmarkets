@@ -19,4 +19,5 @@ public record Fact(Source source, String data) implements Ranked {
     public String getData() {
         return data;
     }
+
 }

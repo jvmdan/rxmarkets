@@ -3,6 +3,8 @@ package uk.co.rxmarkets.model.ranking;
 import lombok.Getter;
 import uk.co.rxmarkets.model.sources.Source;
 
+import java.io.Serializable;
+
 /**
  * An Opinion represents the smallest piece of data within the system. This may be
  * the content of a news article, a comment on social media, a user review or any
@@ -19,4 +21,5 @@ public record Opinion(String source, String data) implements Ranked {
     public String getData() {
         return data;
     }
+
 }
