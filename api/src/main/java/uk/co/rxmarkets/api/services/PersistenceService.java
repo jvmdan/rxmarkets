@@ -4,10 +4,12 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.co.rxmarkets.api.Utils;
 import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @ApplicationScoped
@@ -23,6 +25,7 @@ public class PersistenceService {
     }
 
     public Uni<Long> createOrUpdate(String mic, String ticker, Scoreboard scoreboard) {
+        Utils.saveObjectToJson(scoreboard, ticker + "_" + LocalDate.now());
         return Equity.findByTicker(client, mic, ticker).flatMap(equity ->
                 (equity != null) ? update(equity, scoreboard) : create(mic, ticker, scoreboard));
     }
@@ -36,5 +39,7 @@ public class PersistenceService {
         equity.setLatest(scoreboard);
         return equity.save(client);
     }
+
+
 
 }
