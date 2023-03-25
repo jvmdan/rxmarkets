@@ -2,18 +2,23 @@ package uk.co.rxmarkets.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@RequiredArgsConstructor
+@ApplicationScoped
 @Slf4j
-public class Utils {
+public class FileService {
 
-    public static void saveObjectToJson(Object object, String fileName) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+
+    public void saveObjectToJson(Object object, String fileName) {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         String userHome = System.getProperty("user.home");
         Path outputPath = Paths.get(userHome, "scores", fileName + ".json");

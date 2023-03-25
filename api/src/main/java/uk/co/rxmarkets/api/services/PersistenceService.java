@@ -4,7 +4,7 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.api.Utils;
+import uk.co.rxmarkets.api.FileService;
 import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
@@ -18,6 +18,7 @@ import java.util.Objects;
 public class PersistenceService {
 
     private final PgPool client;
+    private final FileService fileService;
 
     public Uni<Boolean> isPresent(String mic, String ticker) {
         return Equity.findByTicker(client, mic, ticker)
@@ -25,7 +26,7 @@ public class PersistenceService {
     }
 
     public Uni<Long> createOrUpdate(String mic, String ticker, Scoreboard scoreboard) {
-        Utils.saveObjectToJson(scoreboard, ticker + "_" + LocalDate.now());
+        fileService.saveObjectToJson(scoreboard, ticker + "_" + LocalDate.now());
         return Equity.findByTicker(client, mic, ticker).flatMap(equity ->
                 (equity != null) ? update(equity, scoreboard) : create(mic, ticker, scoreboard));
     }
