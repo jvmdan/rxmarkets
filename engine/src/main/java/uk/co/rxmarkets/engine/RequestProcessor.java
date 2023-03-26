@@ -20,7 +20,7 @@ import java.util.UUID;
 
 /**
  * A bean consuming data from the "request" RabbitMQ queue and giving out a random quote.
- * The result is pushed to the "triggers" RabbitMQ exchange.
+ * The result is pushed to the "scores" RabbitMQ exchange.
  */
 @ApplicationScoped
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class RequestProcessor {
     private final Engine<Category, Ranked> engine;
 
     @Incoming("requests")
-    @Outgoing("triggers")
+    @Outgoing("scores")
     @Blocking
     public Scoreboard process(JsonObject json) {
         final EngineRequest request = json.mapTo(EngineRequest.class);

@@ -13,26 +13,26 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 
-@Path("/triggers")
+@Path("/scores")
 public class RequestsResource {
 
     @Channel("engine-requests")
     Emitter<EngineRequest> emitter;
 
-    @Channel("triggers")
-    Multi<Scoreboard> triggers;
+    @Channel("scores")
+    Multi<Scoreboard> scores;
 
     /**
-     * Endpoint retrieving the "triggers" queue and sending the items to a server sent event.
+     * Endpoint retrieving the "scores" queue and sending the items to a server sent event.
      */
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
     public Multi<Scoreboard> stream() {
-        return triggers;
+        return scores;
     }
 
     /**
-     * Endpoint to generate a new quote request id and send it to "engine-requests" RabbitMQ exchange using the emitter.
+     * Endpoint to generate a new request ID and send it to "engine-requests" RabbitMQ exchange using the emitter.
      */
     @POST
     @Path("/request")

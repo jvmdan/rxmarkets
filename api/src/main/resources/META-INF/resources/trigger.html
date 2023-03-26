@@ -12,7 +12,7 @@
             <div class="card-body">
                 <h2 class="card-title">Engine Trigger</h2>
                 <button class="btn btn-info" id="trigger-btn">Generate Score</button>
-                <div class="triggers"></div>
+                <div class="scores"></div>
             </div>
         </div>
     </div>
@@ -20,16 +20,16 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $("#trigger-btn").click((event) => {
-        fetch("/triggers/request", {
+        fetch("/scores/request", {
                 method: "POST"
             })
             .then(res => res.text())
             .then(qid => {
                 var row = $(`<h4 class='col-md-12' id='${qid}'>Trigger # <i>${qid}</i> | <strong>Pending</strong></h4>`);
-                $(".triggers").append(row);
+                $(".scores").append(row);
             });
     });
-    var source = new EventSource("/triggers");
+    var source = new EventSource("/scores");
     source.onmessage = (event) => {
         var json = JSON.parse(event.data);
         $(`#${json.id}`).html(function(index, html) {
