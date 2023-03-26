@@ -1,5 +1,5 @@
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import json
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
-def get_tweets(hashtag, num_tweets=20, driver_path='/Users/samgain/Downloads/chromedriver'):
+def get_tweets(hashtag, num_tweets=50, driver_path='/Users/samgain/Downloads/chromedriver'):
     #url = f'https://twitter.com/hashtag/{hashtag}'
     service = Service(executable_path=driver_path)
     driver = webdriver.Chrome(service=service)
@@ -67,7 +67,7 @@ def get_tweets(hashtag, num_tweets=20, driver_path='/Users/samgain/Downloads/chr
 
             for tag in soup.find_all(attrs={"data-testid": "tweetText"}):
                 tweet = {}
-                tweet['text'] = ' '.join(tag.stripped_strings)
+                tweet['data'] = ' '.join(tag.stripped_strings)
                 if tweet not in tweets:
                     tweets.append(tweet)
 
@@ -76,7 +76,7 @@ def get_tweets(hashtag, num_tweets=20, driver_path='/Users/samgain/Downloads/chr
 
             # Scroll down the page
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-          #  time.sleep(2)
+        #  time.sleep(2)
 
         except Exception as e:
             print(f"Exception encountered: {e}")
@@ -95,11 +95,15 @@ def get_tweets(hashtag, num_tweets=20, driver_path='/Users/samgain/Downloads/chr
     return tweets
 
 def save_tweets(tweets, filename):
+    # Save prettified JSON to file
     with open(filename, 'w') as file:
-        json.dump(tweets, file)
+        json.dump(tweets, file, indent=4)
+
 
 if __name__ == '__main__':
     hashtag = 'apple'
-    filename = 'tweets.json'
+    # Set the filename to today's date
+    today = date.today()
+    filename = f'tweets_{today}.json'
     tweets = get_tweets(hashtag)
     save_tweets(tweets, filename)
