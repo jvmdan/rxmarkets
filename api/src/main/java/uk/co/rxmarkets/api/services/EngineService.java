@@ -8,6 +8,7 @@ import uk.co.rxmarkets.model.scoring.Scoreboard;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Arrays;
 import java.util.Set;
+import java.util.UUID;
 
 @ApplicationScoped
 @Slf4j
@@ -16,7 +17,7 @@ public class EngineService {
 //    private final Engine<Category, Ranked> engine = new OpenAiEngine();
 
     public Scoreboard evaluate(Set<Ranked> dataSet) {
-        final Scoreboard.Builder scoreboard = new Scoreboard.Builder();
+        final Scoreboard.Builder scoreboard = new Scoreboard.Builder(UUID.randomUUID());
         Arrays.stream(Category.values()).forEach(c -> {
 //            final Indicator score = engine.score(c, dataSet);
 //            scoreboard.addScore(c, score);

@@ -5,6 +5,7 @@ import uk.co.rxmarkets.model.ranking.Ranked;
 import uk.co.rxmarkets.model.scoring.Category;
 import uk.co.rxmarkets.model.scoring.Indicator;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Set;
  *
  * @author Daniel Scarfe
  */
+@ApplicationScoped
 public class RandomEngine implements Engine<Category, Ranked> {
 
     @Override
