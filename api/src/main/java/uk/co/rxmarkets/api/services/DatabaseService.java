@@ -4,7 +4,6 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.api.FileService;
 import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
@@ -15,7 +14,7 @@ import java.util.Objects;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
-public class PersistenceService {
+public class DatabaseService {
 
     private final PgPool client;
     private final FileService fileService;

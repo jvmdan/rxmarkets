@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api;
+package uk.co.rxmarkets.api.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

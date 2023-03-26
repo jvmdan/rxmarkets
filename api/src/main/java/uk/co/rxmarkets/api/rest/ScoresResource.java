@@ -1,6 +1,5 @@
 package uk.co.rxmarkets.api.rest;
 
-import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -11,11 +10,8 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.model.EngineRequest;
-import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.ranking.Opinion;
-import uk.co.rxmarkets.model.scoring.Scoreboard;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,18 +29,6 @@ public class ScoresResource {
 
     @Channel("engine-requests")
     Emitter<EngineRequest> emitter;
-
-    @Channel("scores")
-    Multi<Scoreboard> scores;
-
-    /**
-     * Endpoint retrieving the "scores" queue and sending the items to a server sent event.
-     */
-    @GET
-    @Produces(MediaType.SERVER_SENT_EVENTS)
-    public Multi<Scoreboard> stream() {
-        return scores; // TODO | Trigger the persist event.
-    }
 
     /**
      * Endpoint to generate a new request ID and send it to "engine-requests" RabbitMQ exchange using the emitter.
