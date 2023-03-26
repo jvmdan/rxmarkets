@@ -20,7 +20,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $("#trigger-btn").click((event) => {
-        fetch("/scores/request", {
+        fetch("/scores/request?equity=cs", {
                 method: "POST"
             })
             .then(res => res.text())
