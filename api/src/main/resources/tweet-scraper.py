@@ -67,7 +67,7 @@ def get_tweets(hashtag, num_tweets=20, driver_path='/Users/samgain/Downloads/chr
 
             for tag in soup.find_all(attrs={"data-testid": "tweetText"}):
                 tweet = {}
-                tweet['data'] = ' '.join(tag.stripped_strings)
+                tweet['text'] = ' '.join(tag.stripped_strings)
                 if tweet not in tweets:
                     tweets.append(tweet)
 
