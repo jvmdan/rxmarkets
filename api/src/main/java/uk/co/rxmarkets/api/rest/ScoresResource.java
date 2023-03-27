@@ -11,14 +11,15 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.model.EngineRequest;
 import uk.co.rxmarkets.model.ranking.Opinion;
+import uk.co.rxmarkets.model.scoring.Scoreboard;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.time.Instant;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Path("/scores")
@@ -61,6 +62,21 @@ public class ScoresResource {
                             });
                     return dataSet;
                 });
+    }
+
+    @GET
+    @Path("/random")
+    public List<Scoreboard> randomDataset() {
+        final int nDays = 28; // The number of random days to generate.
+        final long dayInMillis = 1000 * 60 * 60 * 24;
+        final Date today = Date.from(Instant.now());
+        final List<Scoreboard> scores = new ArrayList<>();
+        for (int i = 0; i < nDays; i++) {
+            final Date date = new Date(today.getTime() - (i * dayInMillis));
+            final Scoreboard result = Scoreboard.random(date);
+            scores.add(result);
+        }
+        return scores;
     }
 
 }

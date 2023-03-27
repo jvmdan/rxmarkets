@@ -1,8 +1,13 @@
 package uk.co.rxmarkets.view;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateExtension;
 import io.quarkus.qute.TemplateInstance;
+import io.vertx.mutiny.pgclient.PgPool;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.model.scoring.Indicator;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
@@ -12,18 +17,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 @Path("/view")
+@RequiredArgsConstructor
 public class EquityResource {
 
-    /**
-     * The number of days worth of data we wish to plot.
-     */
-    private static final int N_DAYS = 28;
+    private final ObjectMapper mapper;
+    private final String baseUrl = "http://localhost:8080/"; // TODO | Inject this!
 
     @CheckedTemplate
     static class Templates {
@@ -34,16 +37,11 @@ public class EquityResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
+    @SneakyThrows
     public TemplateInstance get(@RestQuery String market, @RestQuery String ticker) {
-        final long dayInMillis = 1000 * 60 * 60 * 24;
-        final Date today = Date.from(Instant.now());
-        final List<Scoreboard> scores = new ArrayList<>();
-        for (int i = 0; i < N_DAYS; i++) {
-            final Date date = new Date(today.getTime() - (i * dayInMillis));
-            final Scoreboard result = Scoreboard.random(date);
-            scores.add(result); // TODO | Extract from API.
-        }
-        return EquityResource.Templates.view(market, ticker, scores);
+        final URL source = new URL(baseUrl + "/scores/random");
+        final Scoreboard[] scores = mapper.readValue(source, Scoreboard[].class);
+        return EquityResource.Templates.view(market, ticker, Arrays.asList(scores));
     }
 
     /**
