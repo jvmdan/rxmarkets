@@ -13,6 +13,7 @@
         <module>model</module>
         <module>engine</module>
         <module>api</module>
+        <module>view</module>
     </modules>
 
     <properties>

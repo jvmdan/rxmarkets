@@ -40,6 +40,4 @@ public class DatabaseService {
         return equity.save(client);
     }
 
-
-
 }
