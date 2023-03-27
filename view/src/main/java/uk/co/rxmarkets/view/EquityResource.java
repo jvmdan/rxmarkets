@@ -1,25 +1,25 @@
 package uk.co.rxmarkets.view;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import io.quarkus.qute.CheckedTemplate;
+import io.quarkus.qute.TemplateExtension;
+import io.quarkus.qute.TemplateInstance;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-import io.quarkus.qute.CheckedTemplate;
-import io.quarkus.qute.TemplateExtension;
-import io.quarkus.qute.TemplateInstance;
-
-@Path("items")
-public class ItemResource {
+@Path("/view")
+public class EquityResource {
 
     @CheckedTemplate
     static class Templates {
-        
-        static native TemplateInstance items(List<Item> items);
+
+        static native TemplateInstance view(List<Item> items);
+
     }
 
     @GET
@@ -29,7 +29,7 @@ public class ItemResource {
         items.add(new Item(new BigDecimal(10), "Apple"));
         items.add(new Item(new BigDecimal(16), "Pear"));
         items.add(new Item(new BigDecimal(30), "Orange"));
-        return Templates.items(items);
+        return EquityResource.Templates.view(items);
     }
 
     /**

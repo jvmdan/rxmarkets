@@ -8,15 +8,21 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class ItemsResourceTest {
+public class IndexResourceTest {
 
     @Test
     public void testEndpoint() {
         given()
-                .when().get("/items")
+                .when().get("/hello")
                 .then()
                 .statusCode(200)
-                .body(containsString("Apple:"), containsString("<del>30</del> <strong>27.0</strong>"));
+                .body(containsString("<p>Hello world!</p>"));
+
+        given()
+                .when().get("/hello?name=Lucie")
+                .then()
+                .statusCode(200)
+                .body(containsString("<p>Hello Lucie!</p>"));
     }
 
 }

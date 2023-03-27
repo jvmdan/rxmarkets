@@ -14,4 +14,8 @@ Run the application like so:
 ./mvnw quarkus:dev
 ```
 
-Then visit http://localhost:8888/view/ in your browser.
+Then visit http://localhost:8888/ in your browser.
+
+Equity viewing is determined by your HTTP query. 
+
+An example ($TSLA) is shown on the index page.

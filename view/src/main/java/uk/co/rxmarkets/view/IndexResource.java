@@ -11,16 +11,16 @@ import org.jboss.resteasy.reactive.RestQuery;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 
-@Path("/hello")
-public class HelloResource {
+@Path("/")
+public class IndexResource {
 
     @Inject
-    Template hello;
+    Template index;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get(@RestQuery String name) {
-        return hello.data("name", name);
+        return index.data("name", name);
     }
 
 }
