@@ -2,21 +2,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Qute - Items</title> 
+<title>RxMarkets | Viewing Platform</title>
 </head>
 <body>
-    <h1>List of Items</h1>
-    <ul>
-        {#for item in items}
-        <li>
-            {item.name}:
-            {#if item.price < 15}
-              {item.price}
-            {#else}
-              <del>{item.price}</del> <strong>{item.discountedPrice}</strong>
-            {/if}
-        </li>
+    {#if ticker and market}
+    <h1>Viewing ${ticker ?: "NULL"} on {market}</h1>
+        {#for score in scores}
+        <h3>{score.date}:</h3>
+        <ul>
+            {#for s in score.scores}
+            <li>
+                {s.key} = {s.value.score}
+            </li>
+            {/for}
+        </ul>
+        <p/>
         {/for}
-    </ul>
+    {#else}
+    <h1 style="color:red">Unable to locate equity for ${ticker ?: "NULL"} on {market ?: "NULL"}</h1>
+    {/if}
 </body>
 </html>
