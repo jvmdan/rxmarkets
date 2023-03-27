@@ -19,8 +19,8 @@ public class IndexResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance get(@RestQuery String name) {
-        return index.data("name", name);
+    public TemplateInstance get() {
+        return index.instance();
     }
 
 }

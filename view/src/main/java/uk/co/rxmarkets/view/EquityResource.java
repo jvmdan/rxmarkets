@@ -12,7 +12,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Path("/view")
@@ -33,9 +35,13 @@ public class EquityResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get(@RestQuery String market, @RestQuery String ticker) {
+        final long dayInMillis = 1000 * 60 * 60 * 24;
+        final Date today = Date.from(Instant.now());
         final List<Scoreboard> scores = new ArrayList<>();
         for (int i = 0; i < N_DAYS; i++) {
-            scores.add(Scoreboard.random()); // TODO | Extract from API.
+            final Date date = new Date(today.getTime() - (i * dayInMillis));
+            final Scoreboard result = Scoreboard.random(date);
+            scores.add(result); // TODO | Extract from API.
         }
         return EquityResource.Templates.view(market, ticker, scores);
     }

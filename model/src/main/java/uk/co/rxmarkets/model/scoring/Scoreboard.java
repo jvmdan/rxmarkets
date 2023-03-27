@@ -27,6 +27,15 @@ public class Scoreboard {
         return builder.build();
     }
 
+    // TODO | Remove this when it is no longer required.
+    public static Scoreboard random(Date date) {
+        final Builder builder = new Builder(UUID.randomUUID(), date);
+        Arrays.stream(Category.values()).forEachOrdered(c -> {
+            builder.addScore(c, Indicator.random());
+        });
+        return builder.build();
+    }
+
     public static class Builder {
 
         private final UUID id;
@@ -34,8 +43,12 @@ public class Scoreboard {
         private final HashMap<Category, Indicator> scores = new HashMap<>(Category.values().length);
 
         public Builder(UUID id) {
+            this(id, Date.from(Instant.now()));
+        }
+
+        public Builder(UUID id, Date date) {
             this.id = id;
-            this.date = Date.from(Instant.now());
+            this.date = date;
         }
 
         public Builder addScore(Category c, Indicator i) {
