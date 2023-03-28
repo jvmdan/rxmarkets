@@ -8,14 +8,13 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import uk.co.rxmarkets.model.Engine;
 import uk.co.rxmarkets.model.EngineRequest;
-import uk.co.rxmarkets.model.ranking.Ranked;
+import uk.co.rxmarkets.model.ranking.Opinion;
 import uk.co.rxmarkets.model.scoring.Category;
 import uk.co.rxmarkets.model.scoring.Indicator;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -27,7 +26,7 @@ import java.util.UUID;
 @Slf4j
 public class RequestProcessor {
 
-    private final Engine<Category, Ranked> engine;
+    private final Engine<Category, Opinion> engine;
 
     @Incoming("requests")
     @Outgoing("scores")
@@ -37,7 +36,7 @@ public class RequestProcessor {
         final UUID requestId = request.getId();
         final Scoreboard.Builder scoreboard = new Scoreboard.Builder(requestId);
         Arrays.stream(Category.values()).forEach(c -> {
-            final Indicator score = engine.score(c, Collections.emptySet());
+            final Indicator score = engine.score(c, request.getDataSet());
             scoreboard.addScore(c, score);
         });
         log.info("Created Scoreboard instance for request: {}", request);

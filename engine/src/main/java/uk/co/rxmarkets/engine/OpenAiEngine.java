@@ -9,10 +9,11 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.model.Engine;
-import uk.co.rxmarkets.model.ranking.Ranked;
+import uk.co.rxmarkets.model.ranking.Opinion;
 import uk.co.rxmarkets.model.scoring.Category;
 import uk.co.rxmarkets.model.scoring.Indicator;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-public class OpenAiEngine implements Engine<Category, Ranked> {
+@ApplicationScoped
+public class OpenAiEngine implements Engine<Category, Opinion> {
 
     private final String model;
     private final String token;
@@ -47,7 +49,7 @@ public class OpenAiEngine implements Engine<Category, Ranked> {
     }
 
     @Override
-    public Indicator score(Category category, Set<Ranked> ranked) {
+    public Indicator score(Category category, Set<Opinion> ranked) {
         log.info("Scoring {} across {} data points...", category.name(), ranked.size());
         List<Double> scores = ranked.stream()
                 .map(message -> generateScore(category, message.getData()))

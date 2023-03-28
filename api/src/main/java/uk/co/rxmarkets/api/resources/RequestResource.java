@@ -45,7 +45,7 @@ public class RequestResource {
 
     // Pull the dataset out from the static file of tweets.
     public Uni<Set<Opinion>> extractData(String equity) {
-        final String exampleFile = equity + "-tweets.json";
+        final String exampleFile = equity + "/tweets_2023-03-26.json";
         return bus.<JsonArray>request("tweets", exampleFile)
                 .onItem().transform(message -> {
                     final Set<Opinion> dataSet = new HashSet<>(message.body().size());
