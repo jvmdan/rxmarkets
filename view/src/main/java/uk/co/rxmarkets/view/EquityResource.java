@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateExtension;
 import io.quarkus.qute.TemplateInstance;
-import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.model.scoring.Indicator;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
@@ -21,12 +19,17 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The EquityResource serves the dynamic 'view' template for a given equity.
+ *
+ * @author Daniel Scarfe
+ */
 @Path("/view")
 @RequiredArgsConstructor
 public class EquityResource {
 
+    private final EnvironmentConfiguration config;
     private final ObjectMapper mapper;
-    private final String baseUrl = "http://localhost:8080/"; // TODO | Inject this!
 
     @CheckedTemplate
     static class Templates {
@@ -39,7 +42,7 @@ public class EquityResource {
     @Produces(MediaType.TEXT_HTML)
     @SneakyThrows
     public TemplateInstance get(@RestQuery String market, @RestQuery String ticker) {
-        final URL source = new URL(baseUrl + "/scores/random");
+        final URL source = new URL(config.getBaseUrl() + "/scores/random");
         final Scoreboard[] scores = mapper.readValue(source, Scoreboard[].class);
         return EquityResource.Templates.view(market, ticker, Arrays.asList(scores));
     }

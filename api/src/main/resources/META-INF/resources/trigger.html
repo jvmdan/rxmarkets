@@ -20,7 +20,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $("#trigger-btn").click((event) => {
-        fetch("/scores/request?equity=cs", {
+        fetch("/api/requests?equity=cs", {
                 method: "POST"
             })
             .then(res => res.text())
@@ -29,7 +29,7 @@
                 $(".scores").append(row);
             });
     });
-    var source = new EventSource("/scores");
+    var source = new EventSource("/api");
     source.onmessage = (event) => {
         var json = JSON.parse(event.data);
         $(`#${json.id}`).html(function(index, html) {

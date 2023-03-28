@@ -14,7 +14,7 @@ public class EquityConfiguration {
             "id SERIAL PRIMARY KEY, " +
             "market TEXT NOT NULL, " +
             "ticker TEXT NOT NULL, " +
-            "active BOOLEAN NOT NULL" +
+            "active BOOLEAN NOT NULL " +
             ")";
 
     private final PgPool client;

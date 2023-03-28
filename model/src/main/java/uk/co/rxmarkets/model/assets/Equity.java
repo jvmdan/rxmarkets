@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -28,7 +29,7 @@ public class Equity implements Asset {
     private final String market;
     private final String ticker;
     private final boolean active;
-    private Scoreboard latest;
+    private List<Scoreboard> scores;
 
     public static Uni<List<Equity>> findByMarket(PgPool client, String market) {
         return client.preparedQuery(FIND_MARKET_QUERY).execute(Tuple.of(market))
@@ -66,7 +67,7 @@ public class Equity implements Asset {
         final String ticker = row.getString("ticker");
         final Boolean active = row.getBoolean("active");
         final Scoreboard scoreboard = Scoreboard.random();
-        final Equity equity = new Equity(id, market, ticker, active, scoreboard);
+        final Equity equity = new Equity(id, market, ticker, active, Collections.singletonList(scoreboard));
         log.info("Fetched {}", equity);
         return equity;
     }

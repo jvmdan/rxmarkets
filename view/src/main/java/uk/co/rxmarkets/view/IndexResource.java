@@ -11,6 +11,11 @@ import org.jboss.resteasy.reactive.RestQuery;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 
+/**
+ * The IndexResource serves the static 'index.html' template instance at the root of the view service.
+ *
+ * @author Daniel Scarfe
+ */
 @Path("/")
 public class IndexResource {
 
