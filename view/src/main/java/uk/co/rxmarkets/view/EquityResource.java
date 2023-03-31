@@ -42,7 +42,7 @@ public class EquityResource {
     @Produces(MediaType.TEXT_HTML)
     @SneakyThrows
     public TemplateInstance get(@RestQuery String market, @RestQuery String ticker) {
-        final URL source = new URL(config.getBaseUrl() + "/scores/random");
+        final URL source = new URL(config.getBaseUrl() + "/scores/" + market + "/" + ticker);
         final Scoreboard[] scores = mapper.readValue(source, Scoreboard[].class);
         return EquityResource.Templates.view(market, ticker, Arrays.asList(scores));
     }

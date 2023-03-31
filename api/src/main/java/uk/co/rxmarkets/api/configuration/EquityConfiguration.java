@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 @ApplicationScoped
-public class EquityConfiguration {
+public class EquityConfiguration implements Configuration {
 
     private static final String EQUITY_SCHEMA = "CREATE TABLE equities (" +
             "id SERIAL PRIMARY KEY, " +
@@ -25,7 +25,8 @@ public class EquityConfiguration {
         this.schemaCreate = schemaCreate;
     }
 
-    void initialise(@Observes StartupEvent ev) {
+    @Override
+    public void initialise(@Observes StartupEvent ev) {
         if (schemaCreate) {
             client.query("DROP TABLE IF EXISTS equities").execute()
                     .flatMap(r -> client.query(EQUITY_SCHEMA).execute())

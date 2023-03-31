@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 @ApplicationScoped
-public class MarketConfiguration {
+public class MarketConfiguration implements Configuration {
 
     private final PgPool client;
     private final boolean schemaCreate;
@@ -18,7 +18,8 @@ public class MarketConfiguration {
         this.schemaCreate = schemaCreate;
     }
 
-    void initialise(@Observes StartupEvent ev) {
+    @Override
+    public void initialise(@Observes StartupEvent ev) {
         if (schemaCreate) {
             client.query("DROP TABLE IF EXISTS markets").execute()
                     .flatMap(r -> client.query("CREATE TABLE markets (id SERIAL PRIMARY KEY, mic TEXT NOT NULL, name TEXT NOT NULL, location TEXT NOT NULL)").execute())

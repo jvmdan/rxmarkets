@@ -4,6 +4,7 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
 import org.jboss.resteasy.reactive.RestQuery;
+import uk.co.rxmarkets.api.services.persistence.InMemoryService;
 import uk.co.rxmarkets.model.assets.Equity;
 import uk.co.rxmarkets.model.scoring.Scoreboard;
 
@@ -21,14 +22,13 @@ import java.util.List;
 public class ScoreResource {
 
     private final PgPool client;
+    private final InMemoryService store; // FIXME | This needs to retrieve from the database.
 
     @GET
     @Path("/{market}/{ticker}")
-    public Uni<Response> getAll(String market, String ticker, @RestQuery String from, @RestQuery String to) {
+    public List<Scoreboard> getAll(String market, String ticker, @RestQuery String from, @RestQuery String to) {
         // TODO | Support filtering the scoreboards within the given date span.
-        return Equity.findByTicker(client, market, ticker)
-                .onItem().transform(equity -> equity != null ? Response.ok(equity.getScores()) : Response.status(Status.NOT_FOUND))
-                .onItem().transform(ResponseBuilder::build);
+        return store.getAll(ticker);
     }
 
     @GET
