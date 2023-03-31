@@ -12,6 +12,7 @@ import org.jboss.resteasy.reactive.RestQuery;
 import uk.co.rxmarkets.model.EngineRequest;
 import uk.co.rxmarkets.model.ranking.Opinion;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -34,8 +35,8 @@ public class RequestResource {
     @POST
     @Path("/")
     @Produces(MediaType.TEXT_PLAIN)
-    public Uni<String> createRequest(@RestQuery String equity) {
-        return extractData(equity)
+    public Uni<String> createRequest(@RestQuery String equity, @RestQuery String date) {
+        return extractData(equity, date)
                 .onItem().transform(data -> {
                     final EngineRequest request = new EngineRequest("XLON", equity.toUpperCase(Locale.ROOT), data);
                     emitter.send(request);
@@ -44,8 +45,8 @@ public class RequestResource {
     }
 
     // Pull the dataset out from the static file of tweets.
-    public Uni<Set<Opinion>> extractData(String equity) {
-        final String exampleFile = equity + "/tweets_2023-03-26.json";
+    public Uni<Set<Opinion>> extractData(String equity, String date) {
+        final String exampleFile = equity.toLowerCase(Locale.ROOT) + "/tweets_" + (date == null || date.isBlank() ? "2023-03-26" : date) + ".json";
         return bus.<JsonArray>request("tweets", exampleFile)
                 .onItem().transform(message -> {
                     final Set<Opinion> dataSet = new HashSet<>(message.body().size());
