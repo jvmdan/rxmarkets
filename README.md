@@ -4,6 +4,16 @@
 
 A reactive application for real-time assessment of market sentiment vs. risk in equity trading. Highly concurrent data-driven processing built upon a Quarkus & Vert.x stack using JDK 17. 
 
+## Services
+
+Below is the list of the microservices that comprise the application:
+
+| Service 	| Description                                                     	| Interface 	|
+|---------	|-----------------------------------------------------------------	|-----------	|
+| api     	| A public-facing API for interacting with the database.          	| REST/json 	|
+| engine  	| The underlying analysis engine for generating sentiment scores. 	| AMQP      	|
+| view    	| The web frontend for viewing the data.                          	| REST/json 	|
+
 ## The Concept
 Financial markets are often emotionally driven. In theory, the value of a company should be set by a free market, 
 driven by the underlying business fundamentals. But the free market is operated by humans & we have feelings. 
@@ -30,5 +40,3 @@ We provide a web platform for viewing the data, along with a comprehensive API f
 ## Prerequisites
 
 The application expects you to have a running postgreSQL instance for the purpose of testing the reactive database layer. Fortunately, if you don't have postgres installed, Quarkus will pull a container & create the necessary schemas for you automatically. For this to work you must have `Docker Engine` installed.
-
-Developers are also advised to install the `Quarkus Run Configs` plugin for their IDE. This allows you to strap a debugger to the Quarkus application with ease. Otherwise, you must connect a remote debugger yourself, which can be cumbersome to do each time.
