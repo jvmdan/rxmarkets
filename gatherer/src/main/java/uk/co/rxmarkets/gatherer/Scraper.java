@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.data;
+package uk.co.rxmarkets.gatherer;
 
 public interface Scraper<T> {
 

@@ -10,9 +10,10 @@ Below is the list of the microservices that comprise the application:
 
 | Service 	| Description                                                     	| Interface 	|
 |---------	|-----------------------------------------------------------------	|-----------	|
-| api     	| A public-facing API for interacting with the database.          	| REST/json 	|
+| api     	| A public-facing API for reactive interaction with the database.	| REST/json 	|
 | engine  	| The underlying analysis engine for generating sentiment scores. 	| AMQP      	|
-| view    	| The web frontend for viewing the data.                          	| REST/json 	|
+| gatherer 	| Autonomous data gathering, providing input into the 'engine'. 	| AMQP      	|
+| view    	| A web-based frontend for viewing the data in a browser.           | - 			|
 
 ## The Concept
 Financial markets are often emotionally driven. In theory, the value of a company should be set by a free market, 

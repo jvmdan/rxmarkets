@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.data.reddit;
+package uk.co.rxmarkets.gatherer.reddit;
 
 
 import io.smallrye.mutiny.Uni;
@@ -12,7 +12,7 @@ import io.vertx.mutiny.ext.web.client.WebClient;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.api.data.Scraper;
+import uk.co.rxmarkets.gatherer.Scraper;
 import uk.co.rxmarkets.model.ranking.Opinion;
 
 import javax.enterprise.context.ApplicationScoped;
