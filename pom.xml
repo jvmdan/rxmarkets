@@ -9,14 +9,16 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <!-- List of services comprising the application -->
     <modules>
         <module>model</module>
         <module>engine</module>
+        <module>gatherer</module>
         <module>api</module>
         <module>view</module>
-        <module>gatherer</module>
     </modules>
 
+    <!-- Build-specific properties & versioning -->
     <properties>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
@@ -31,6 +33,35 @@
         <openai.version>0.11.1</openai.version>
     </properties>
 
+    <!-- Use the Quarkus BOM for dependency version resolution -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Dependencies common to all modules -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- Configure the Quarkus build plugin -->
     <build>
         <plugins>
             <plugin>
