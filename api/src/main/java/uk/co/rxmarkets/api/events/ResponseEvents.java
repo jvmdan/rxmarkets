@@ -5,8 +5,8 @@ import io.vertx.core.json.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import uk.co.rxmarkets.api.services.equities.EquityService;
 import uk.co.rxmarkets.api.services.FileService;
+import uk.co.rxmarkets.api.services.repo.EquityRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -16,7 +16,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class ResponseEvents {
 
     // TODO | This ought to call a collection of persistence services, not individually.
-    private final EquityService equityService;
+    private final EquityRepository equityService;
     private final FileService fileService;
 
     /**

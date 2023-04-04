@@ -23,8 +23,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-@NamedQuery(name = "Equity.findMarket", query = "SELECT e FROM Equity e WHERE e.market.id = :marketId ORDER BY e.id")
-@NamedQuery(name = "Equity.findSingle", query = "SELECT e FROM Equity e WHERE e.ticker = :ticker")
+@NamedQuery(name = "Equity.findAll", query = "SELECT e FROM Equity e")
+@NamedQuery(name = "Equity.findMarket", query = "SELECT e FROM Equity e WHERE e.market.id = :market ORDER BY e.id")
+@NamedQuery(name = "Equity.findSingle", query = "SELECT e FROM Equity e WHERE e.market.id = :market AND e.ticker = :ticker")
 public class Equity implements Asset {
 
     @Id

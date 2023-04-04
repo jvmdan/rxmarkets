@@ -13,7 +13,7 @@ import java.util.List;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
-public class ScoreboardService implements Repository<Scoreboard> {
+public class ScoreboardService {
 
     private final Mutiny.SessionFactory sf;
 

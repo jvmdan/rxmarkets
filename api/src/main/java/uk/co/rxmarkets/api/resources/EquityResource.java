@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 import uk.co.rxmarkets.api.model.assets.Equity;
 import uk.co.rxmarkets.api.model.markets.EquityMarket;
 import uk.co.rxmarkets.api.model.scoring.Scoreboard;
-import uk.co.rxmarkets.api.services.equities.EquityService;
-import uk.co.rxmarkets.api.services.equities.EquityMarketService;
-import uk.co.rxmarkets.api.services.ScoreboardService;
+import uk.co.rxmarkets.api.services.repo.EquityMarketRepository;
+import uk.co.rxmarkets.api.services.repo.EquityRepository;
+import uk.co.rxmarkets.api.services.repo.ScoreboardRepository;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("api/equities")
@@ -19,9 +18,9 @@ import java.util.List;
 @Produces("application/json")
 public class EquityResource {
 
-    private final EquityService equityService;
-    private final EquityMarketService marketService;
-    private final ScoreboardService scoreboardService;
+    private final EquityRepository equityService;
+    private final EquityMarketRepository marketService;
+    private final ScoreboardRepository scoreboardService;
 
     @GET
     public Uni<List<EquityMarket>> getSupportedMarkets() {
@@ -41,13 +40,16 @@ public class EquityResource {
                 .flatMap(scoreboardService::findByEquity);
     }
 
-//    @DELETE
-//    @Path("{id}")
-//    public Uni<Response> delete(Integer id) {
-//        return sf.withTransaction((s,t) -> s.find(Equity.class, id)
-//                        .onItem().ifNull().failWith(new WebApplicationException("Equity missing from database.", NOT_FOUND))
-//                        .call(s::remove))
-//                .replaceWith(Response.ok().status(NO_CONTENT)::build);
-//    }
+    @GET
+    @Path("/{market}/{ticker}/{score}")
+    public Uni<Scoreboard> getSingleScore(String market, String ticker, String score) {
+        return scoreboardService.findById(score);
+    }
+
+    @DELETE
+    @Path("/{market}/{ticker}/{score}")
+    public Uni<Response> deleteSingleScore(String market, String ticker, String score) {
+        return scoreboardService.delete(score);
+    }
 
 }
