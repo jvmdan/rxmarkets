@@ -11,7 +11,6 @@
 
     <!-- List of services comprising the application -->
     <modules>
-        <module>model</module>
         <module>engine</module>
         <module>gatherer</module>
         <module>api</module>

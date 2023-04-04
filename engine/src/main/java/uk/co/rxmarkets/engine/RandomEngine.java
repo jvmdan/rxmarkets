@@ -1,9 +1,9 @@
 package uk.co.rxmarkets.engine;
 
-import uk.co.rxmarkets.model.Engine;
-import uk.co.rxmarkets.model.ranking.Ranked;
-import uk.co.rxmarkets.model.scoring.Category;
-import uk.co.rxmarkets.model.scoring.Indicator;
+import uk.co.rxmarkets.api.model.Engine;
+import uk.co.rxmarkets.api.model.ranking.Ranked;
+import uk.co.rxmarkets.api.model.scoring.Category;
+import uk.co.rxmarkets.api.model.scoring.Indicator;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.model.ranking;
+package uk.co.rxmarkets.api.model.ranking;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,6 @@ import lombok.Data;
  * other form of information that is based upon human thoughts & feelings.
  *
  * @author Daniel Scarfe
- * @see Fact
  */
 @Data
 @AllArgsConstructor

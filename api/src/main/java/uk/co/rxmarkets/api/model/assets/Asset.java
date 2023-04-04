@@ -1,11 +1,9 @@
-package uk.co.rxmarkets.model.assets;
+package uk.co.rxmarkets.api.model.assets;
 
 public interface Asset {
 
     Long getId();
 
     String getTicker();
-
-    boolean isActive();
 
 }

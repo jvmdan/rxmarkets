@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.model.scoring;
+package uk.co.rxmarkets.api.model.scoring;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -14,12 +14,16 @@
     <dependencies>
         <dependency>
             <groupId>uk.co.rxmarkets</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-scheduler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-reactive-messaging-rabbitmq</artifactId>
         </dependency>
     </dependencies>
 

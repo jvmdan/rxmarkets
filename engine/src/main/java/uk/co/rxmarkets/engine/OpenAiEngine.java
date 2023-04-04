@@ -8,10 +8,10 @@ import com.theokanning.openai.service.OpenAiService;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.model.Engine;
-import uk.co.rxmarkets.model.ranking.Opinion;
-import uk.co.rxmarkets.model.scoring.Category;
-import uk.co.rxmarkets.model.scoring.Indicator;
+import uk.co.rxmarkets.api.model.Engine;
+import uk.co.rxmarkets.api.model.ranking.Opinion;
+import uk.co.rxmarkets.api.model.scoring.Category;
+import uk.co.rxmarkets.api.model.scoring.Indicator;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;

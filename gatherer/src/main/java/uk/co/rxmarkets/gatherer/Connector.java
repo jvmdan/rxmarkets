@@ -1,6 +1,6 @@
 package uk.co.rxmarkets.gatherer;
 
-public interface Scraper<T> {
+public interface Connector<T> {
 
     /**
      * This method shall return the client used to scrape the API.

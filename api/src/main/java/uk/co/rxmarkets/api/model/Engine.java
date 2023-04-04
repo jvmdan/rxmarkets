@@ -1,8 +1,8 @@
-package uk.co.rxmarkets.model;
+package uk.co.rxmarkets.api.model;
 
-import uk.co.rxmarkets.model.ranking.Ranked;
-import uk.co.rxmarkets.model.scoring.Category;
-import uk.co.rxmarkets.model.scoring.Indicator;
+import uk.co.rxmarkets.api.model.ranking.Ranked;
+import uk.co.rxmarkets.api.model.scoring.Category;
+import uk.co.rxmarkets.api.model.scoring.Indicator;
 
 import java.util.Set;
 

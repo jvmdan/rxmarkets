@@ -1,10 +1,10 @@
 package uk.co.rxmarkets.engine;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.model.Engine;
-import uk.co.rxmarkets.model.ranking.Ranked;
-import uk.co.rxmarkets.model.scoring.Category;
-import uk.co.rxmarkets.model.scoring.Indicator;
+import uk.co.rxmarkets.api.model.Engine;
+import uk.co.rxmarkets.api.model.ranking.Ranked;
+import uk.co.rxmarkets.api.model.scoring.Category;
+import uk.co.rxmarkets.api.model.scoring.Indicator;
 
 import java.util.HashMap;
 import java.util.Map;

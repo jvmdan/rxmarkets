@@ -1,35 +1,50 @@
 package uk.co.rxmarkets.api.resources;
 
 import io.smallrye.mutiny.Uni;
-import io.vertx.mutiny.pgclient.PgPool;
 import lombok.RequiredArgsConstructor;
-import uk.co.rxmarkets.model.assets.Equity;
+import uk.co.rxmarkets.api.model.assets.Equity;
+import uk.co.rxmarkets.api.model.scoring.Scoreboard;
+import uk.co.rxmarkets.api.services.EquityService;
+import uk.co.rxmarkets.api.services.ScoreboardService;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.List;
 
 @Path("api/equities")
 @RequiredArgsConstructor
+@Produces("application/json")
 public class EquityResource {
 
-    private final PgPool client;
+    private final EquityService equityService;
+    private final ScoreboardService scoreboardService;
+
+    @GET
+    public Uni<List<Equity>> get() {
+        return equityService.findAll();
+    }
 
     @GET
     @Path("/{market}")
-    public Uni<Response> getMarket(String market) {
-        return Equity.findByMarket(client, market)
-                .onItem().transform(m -> m != null ? Response.ok(m) : Response.status(Status.NOT_FOUND))
-                .onItem().transform(ResponseBuilder::build);
+    public Uni<List<Equity>> getMarket(String market) {
+        return equityService.findMarket(market);
     }
 
     @GET
     @Path("/{market}/{ticker}")
-    public Uni<Response> getSingle(String market, String ticker) {
-        return Equity.findByTicker(client, market, ticker)
-                .onItem().transform(equity -> equity != null ? Response.ok(equity) : Response.status(Status.NOT_FOUND))
-                .onItem().transform(ResponseBuilder::build);
+    public Uni<List<Scoreboard>> getScores(String market, String ticker) {
+        return equityService.findSingleEquity(market, ticker)
+                .flatMap(scoreboardService::findByEquity);
     }
+
+//    @DELETE
+//    @Path("{id}")
+//    public Uni<Response> delete(Integer id) {
+//        return sf.withTransaction((s,t) -> s.find(Equity.class, id)
+//                        .onItem().ifNull().failWith(new WebApplicationException("Equity missing from database.", NOT_FOUND))
+//                        .call(s::remove))
+//                .replaceWith(Response.ok().status(NO_CONTENT)::build);
+//    }
 
 }

@@ -1,11 +1,11 @@
-package uk.co.rxmarkets.api.services.persistence;
+package uk.co.rxmarkets.api.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.smallrye.mutiny.Uni;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.model.scoring.Scoreboard;
+import uk.co.rxmarkets.api.model.scoring.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @ApplicationScoped
 @Getter
 @Slf4j
-public class FileService implements PersistenceService {
+public class FileService {
 
     private final ObjectMapper objectMapper;
     private final String location;
@@ -27,7 +27,6 @@ public class FileService implements PersistenceService {
         this.location = System.getProperty("user.home") + "/scores";
     }
 
-    @Override
     public Uni<Long> save(String market, String ticker, Scoreboard scoreboard) {
         final String fileName = ticker + "_" + LocalDate.now();
         final Path outputPath = Paths.get(location, fileName + ".json");

@@ -9,10 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.resteasy.reactive.RestQuery;
-import uk.co.rxmarkets.model.EngineRequest;
-import uk.co.rxmarkets.model.ranking.Opinion;
+import uk.co.rxmarkets.api.model.EngineRequest;
+import uk.co.rxmarkets.api.model.ranking.Opinion;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

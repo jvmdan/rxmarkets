@@ -1,11 +1,9 @@
-package uk.co.rxmarkets.model;
+package uk.co.rxmarkets.api.model;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import uk.co.rxmarkets.model.ranking.Opinion;
-import uk.co.rxmarkets.model.ranking.Ranked;
+import uk.co.rxmarkets.api.model.ranking.Opinion;
 
 import java.util.Set;
 import java.util.UUID;
