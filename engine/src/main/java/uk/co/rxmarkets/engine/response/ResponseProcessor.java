@@ -1,10 +1,12 @@
 package uk.co.rxmarkets.engine.response;
 
 import io.smallrye.mutiny.Uni;
-import io.vertx.core.json.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.hibernate.reactive.mutiny.Mutiny;
+import uk.co.rxmarkets.engine.entities.Equity;
+import uk.co.rxmarkets.engine.entities.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -13,19 +15,33 @@ import javax.enterprise.context.ApplicationScoped;
 @Slf4j
 public class ResponseProcessor {
 
+    private final Mutiny.SessionFactory sf;
+
     /**
-     * The "onResponse" event is triggered when the 'scores' data pipe contains a scoreboard
+     * The "onResponse" event is triggered when the 'response' data pipe contains a scoreboard
      * value given equity. This event results in the asynchronous persistence of the updated
      * equity to the underlying data store. The caller can choose to wait for the response,
      * or they can simply fire & forget.
+     *
+     * @return the Scoreboard instance that has been persisted to the database.
      */
     @Incoming("response")
-    public void onResponse(EngineResponse response) {
-        log.info("Received response for request: {}", response.getRequestId());
-        response.getScores().forEach((k, v) -> {
-            // TODO | Now we have the response, we can persist it in the database.
-            log.info("{}: {}", k, v);
+    public Uni<Scoreboard> onResponse(EngineResponse response) {
+        // TODO | This will only persist if the equity exists, which may or may not be desirable.
+        // Retrieve the equity instance from our database.
+        final Uni<Equity> equity = sf.withTransaction((s,t) -> s.find(Equity.class, response.getTicker()));
+
+        // Now we can create a new scoreboard instance, tied to our equity.
+        final Uni<Scoreboard> scoreboard = equity.onItem().ifNotNull().transform((e) -> {
+            final Scoreboard s = new Scoreboard();
+            s.setEquity(e);
+            s.setDate(response.getDate());
+            s.setScores(response.getScores());
+            return s;
         });
+
+        // Persist the scoreboard to the database & return in a Uni.
+        return scoreboard.onItem().call((sboard) -> sf.withTransaction((s, t) -> s.persist(sboard)));
     }
 
 }

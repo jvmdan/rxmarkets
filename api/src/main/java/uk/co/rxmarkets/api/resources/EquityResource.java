@@ -46,10 +46,4 @@ public class EquityResource {
         return scoreboardService.findById(score);
     }
 
-    @DELETE
-    @Path("/{market}/{ticker}/{score}")
-    public Uni<Response> deleteSingleScore(String market, String ticker, String score) {
-        return scoreboardService.delete(score);
-    }
-
 }

@@ -28,7 +28,7 @@ public class Scoreboard {
     private String uuid;
 
     @ManyToOne
-    @JoinColumn(name = "equity_id", insertable = false, updatable = false)
+    @JoinColumn(name = "equity_id", updatable = false)
     @JsonIgnore
     private Equity equity;
 

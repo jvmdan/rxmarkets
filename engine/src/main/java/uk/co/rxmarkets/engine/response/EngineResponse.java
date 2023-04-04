@@ -12,12 +12,16 @@ import java.util.*;
 public class EngineResponse {
 
     private final String requestId;
+    private final String market;
+    private final String ticker;
     private final Date date;
     private final Map<String, Double> scores;
 
     // Private constructor to prevent instantiation outside of builder class.
-    private EngineResponse(String requestId, Date date, Map<String, Double> scores) {
+    private EngineResponse(String requestId, String market, String ticker, Date date, Map<String, Double> scores) {
         this.requestId = requestId;
+        this.market = market;
+        this.ticker = ticker;
         this.date = date;
         this.scores = scores;
     }
@@ -25,15 +29,19 @@ public class EngineResponse {
     public static class Builder {
 
         private final UUID requestId;
+        private final String market;
+        private final String ticker;
         private final Date date;
         private final HashMap<String, Double> scores = new HashMap<>();
 
-        public Builder(EngineRequest requestId) {
-            this(requestId, Date.from(Instant.now()));
+        public Builder(EngineRequest request) {
+            this(request, Date.from(Instant.now()));
         }
 
         public Builder(EngineRequest request, Date date) {
             this.requestId = request.getId();
+            this.market = request.getMarket();
+            this.ticker = request.getTicker();
             this.date = date;
         }
 
@@ -43,7 +51,7 @@ public class EngineResponse {
         }
 
         public EngineResponse build() {
-            return new EngineResponse(requestId.toString(), date, scores);
+            return new EngineResponse(requestId.toString(), market, ticker, date, scores);
         }
 
     }
