@@ -1,16 +1,16 @@
 package uk.co.rxmarkets.api.model.markets;
 
-import io.smallrye.mutiny.Uni;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import uk.co.rxmarkets.api.model.assets.Equity;
-import uk.co.rxmarkets.api.services.repo.MarketService;
 
-import javax.inject.Inject;
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,13 +25,14 @@ public class EquityMarket implements Market<Equity> {
     private String id;
 
     private String name;
-//
-//    @OneToMany(mappedBy = "market_id", cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.JOIN)
-//    private Set<Equity> equities;
+
+    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Equity> equities;
 
     public int getAssets() {
-        return 1; // TODO | Fetch the number of equities from the database for the given market.
+        // Returns the total number of assets in this market.
+        return equities.size();
     }
 
 }

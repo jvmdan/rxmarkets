@@ -4,9 +4,9 @@ INSERT INTO markets (id, name) VALUES ('XNYS', 'New York Stock Exchange (NYSE)')
 INSERT INTO markets (id, name) VALUES ('XLON', 'London Stock Exchange (LSE)');
 
 -- Preconfigure the database with the supported equities.
-INSERT INTO equities (id, market) VALUES ('AAPL', 'XNAS');
-INSERT INTO equities (id, market) VALUES ('TSLA', 'XNAS');
-INSERT INTO equities (id, market) VALUES ('MSFT', 'XNAS');
+INSERT INTO equities (id, market_id) VALUES ('AAPL', 'XNAS');
+INSERT INTO equities (id, market_id) VALUES ('TSLA', 'XNAS');
+INSERT INTO equities (id, market_id) VALUES ('MSFT', 'XNAS');
 
 -- Preconfigure the database with a set of scoreboard values.
 INSERT INTO scoreboards (id, equity_id, date) VALUES (1, 'TSLA', '2023-03-26');

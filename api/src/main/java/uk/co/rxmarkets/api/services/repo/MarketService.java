@@ -1,5 +1,6 @@
 package uk.co.rxmarkets.api.services.repo;
 
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,9 @@ public class MarketService implements Repository<Market> {
         return sf.withTransaction((s,t) -> s
                 .createNamedQuery("EquityMarket.findAll", EquityMarket.class)
                 .getResultList()
+                .onItem().transformToMulti(Multi.createFrom()::iterable)
+                .onItem().call(market -> Mutiny.fetch(market.getEquities()))
+                .collect().asList()
         );
     }
 

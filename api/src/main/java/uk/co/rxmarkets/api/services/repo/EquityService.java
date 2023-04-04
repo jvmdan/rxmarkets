@@ -1,5 +1,6 @@
 package uk.co.rxmarkets.api.services.repo;
 
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,18 +19,14 @@ public class EquityService implements Repository<Equity> {
 
     private final Mutiny.SessionFactory sf;
 
-    public Uni<List<Equity>> findAll() {
-        return sf.withTransaction((s,t) -> s
-                .createNamedQuery("Equity.findAll", Equity.class)
-                .getResultList()
-        );
-    }
-
     public Uni<List<Equity>> findMarket(String market) {
         return sf.withTransaction((s,t) -> s
                 .createNamedQuery("Equity.findMarket", Equity.class)
-                .setParameter("market", market.toUpperCase(Locale.ROOT))
+                .setParameter("marketId", market.toUpperCase(Locale.ROOT))
                 .getResultList()
+                .onItem().transformToMulti(Multi.createFrom()::iterable)
+//                .onItem().call(equity -> Mutiny.fetch(equity.getScores()))
+                .collect().asList()
         );
     }
 
@@ -39,6 +36,7 @@ public class EquityService implements Repository<Equity> {
                 .createNamedQuery("Equity.findSingle", Equity.class)
                 .setParameter("id", ticker.toUpperCase(Locale.ROOT))
                 .getSingleResult()
+//                .onItem().call(equity -> Mutiny.fetch(equity.getScores()))
         );
     }
 
