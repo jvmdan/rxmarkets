@@ -1,9 +1,9 @@
-package uk.co.rxmarkets.api.model;
+package uk.co.rxmarkets.engine.requests;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import uk.co.rxmarkets.api.model.ranking.Opinion;
+import uk.co.rxmarkets.engine.model.Ranked;
 
 import java.util.Set;
 import java.util.UUID;
@@ -16,13 +16,13 @@ public class EngineRequest {
     private final UUID id;
     private String market;
     private String ticker;
-    private Set<Opinion> dataSet;
+    private Set<Ranked> dataSet;
 
     public EngineRequest() {
         this.id = UUID.randomUUID();
     }
 
-    public EngineRequest(String market, String ticker, Set<Opinion> dataSet) {
+    public EngineRequest(String market, String ticker, Set<Ranked> dataSet) {
         this.id = UUID.randomUUID();
         this.market = market;
         this.ticker = ticker;

@@ -1,13 +1,9 @@
 package uk.co.rxmarkets.api.services.repo;
 
 import io.smallrye.mutiny.Uni;
-import uk.co.rxmarkets.api.model.assets.Equity;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
-
-import static javax.ws.rs.core.Response.Status.*;
 
 public interface Repository<ID, T> {
 

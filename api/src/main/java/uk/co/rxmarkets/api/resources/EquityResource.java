@@ -2,9 +2,9 @@ package uk.co.rxmarkets.api.resources;
 
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
-import uk.co.rxmarkets.api.model.assets.Equity;
-import uk.co.rxmarkets.api.model.markets.EquityMarket;
-import uk.co.rxmarkets.api.model.scoring.Scoreboard;
+import uk.co.rxmarkets.api.entities.assets.Equity;
+import uk.co.rxmarkets.api.entities.markets.EquityMarket;
+import uk.co.rxmarkets.api.entities.scoring.Scoreboard;
 import uk.co.rxmarkets.api.services.repo.EquityMarketRepository;
 import uk.co.rxmarkets.api.services.repo.EquityRepository;
 import uk.co.rxmarkets.api.services.repo.ScoreboardRepository;

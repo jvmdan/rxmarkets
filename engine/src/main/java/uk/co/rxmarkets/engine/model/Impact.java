@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.engine;
+package uk.co.rxmarkets.engine.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

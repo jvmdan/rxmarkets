@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.model.ranking;
+package uk.co.rxmarkets.engine.model;
 
 /**
  * The Ranked interface represents any piece of data which can affect the scoring

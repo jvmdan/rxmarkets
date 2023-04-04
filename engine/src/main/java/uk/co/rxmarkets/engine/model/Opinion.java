@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.model.ranking;
+package uk.co.rxmarkets.engine.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

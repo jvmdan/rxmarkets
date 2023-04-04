@@ -1,9 +1,6 @@
 package uk.co.rxmarkets.engine;
 
-import uk.co.rxmarkets.api.model.Engine;
-import uk.co.rxmarkets.api.model.ranking.Ranked;
-import uk.co.rxmarkets.api.model.scoring.Category;
-import uk.co.rxmarkets.api.model.scoring.Indicator;
+import uk.co.rxmarkets.engine.model.Ranked;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
@@ -16,15 +13,12 @@ import java.util.Set;
  * @author Daniel Scarfe
  */
 @ApplicationScoped
-public class RandomEngine implements Engine<Category, Ranked> {
+public class RandomEngine implements Engine {
 
     @Override
-    public Indicator score(Category category, Set<Ranked> ranked) {
-        // Produces an entirely random score for the given category.
+    public double score(String category, Set<Ranked> data) {
         final double scale = Math.pow(10, 5);
-        final double score = Math.round(Math.random() * scale) / scale;
-        final int confidence = (int) Math.floor(Math.random() * 10);
-        return new Indicator(score, confidence);
+        return Math.round(Math.random() * scale) / scale;
     }
 
 }

@@ -1,22 +1,23 @@
-package uk.co.rxmarkets.engine;
+package uk.co.rxmarkets.engine.requests;
 
-import java.util.Collections;
-import java.util.concurrent.atomic.AtomicInteger;
-import javax.enterprise.context.ApplicationScoped;
 import io.quarkus.scheduler.Scheduled;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
-import uk.co.rxmarkets.api.model.EngineRequest;
+
+import javax.enterprise.context.ApplicationScoped;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @ApplicationScoped
 @Slf4j
-public class ScheduledBean {
-
-    private final AtomicInteger counter = new AtomicInteger();
+public class RequestScheduler {
 
     @Channel("engine-requests")
     Emitter<EngineRequest> emitter;
+
+    private final AtomicInteger counter = new AtomicInteger();
 
     public int get() {
         return counter.get();
@@ -27,7 +28,7 @@ public class ScheduledBean {
         // TODO | Gather a data set from all available sources & propagate downstream.
         final int count = counter.incrementAndGet();
         log.info("Scheduled job executed! [n={}]", count);
-        final EngineRequest request = new EngineRequest("XLON", "CS", Collections.emptySet());
+        final EngineRequest request = new EngineRequest("XNAS", "MSFT", Collections.emptySet());
         emitter.send(request);
     }
 

@@ -8,12 +8,8 @@ import com.theokanning.openai.service.OpenAiService;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.api.model.Engine;
-import uk.co.rxmarkets.api.model.ranking.Opinion;
-import uk.co.rxmarkets.api.model.scoring.Category;
-import uk.co.rxmarkets.api.model.scoring.Indicator;
+import uk.co.rxmarkets.engine.model.Ranked;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +18,8 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-@ApplicationScoped
-public class OpenAiEngine implements Engine<Category, Opinion> {
+//@ApplicationScoped
+public class OpenAiEngine implements Engine {
 
     private final String model;
     private final String token;
@@ -49,19 +45,19 @@ public class OpenAiEngine implements Engine<Category, Opinion> {
     }
 
     @Override
-    public Indicator score(Category category, Set<Opinion> ranked) {
-        log.info("Scoring {} across {} data points...", category.name(), ranked.size());
-        List<Double> scores = ranked.stream()
+    public double score(String category, Set<Ranked> data) {
+        log.info("Scoring {} across {} data points...", category, data.size());
+        List<Double> scores = data.stream()
                 .map(message -> generateScore(category, message.getData()))
                 .filter(score -> score != -1).toList();
         double average = scores.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-        log.info("Average score for {}: {}", category.name(), average);
-        return new Indicator(average, 1);
+        log.info("Average score for {}: {}", category, average);
+        return average;
     }
 
-    private Double generateScore(Category category, String message) {
+    private Double generateScore(String category, String message) {
         List<ChatMessage> messages = new ArrayList<>();
-        messages.add(new ChatMessage("system", prompt + " " + category.getDescription()));
+        messages.add(new ChatMessage("system", prompt + " " + category));
         messages.add(new ChatMessage("user", message));
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(messages)

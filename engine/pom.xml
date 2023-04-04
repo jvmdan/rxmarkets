@@ -14,11 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>uk.co.rxmarkets</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.theokanning.openai-gpt3-java</groupId>
             <artifactId>service</artifactId>
             <version>${openai.version}</version>
