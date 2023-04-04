@@ -12,7 +12,6 @@ Below is the list of the microservices that comprise the application:
 |---------	|-----------------------------------------------------------------	|-----------	|
 | api     	| A public-facing API for reactive interaction with the database.	| REST/json 	|
 | engine  	| The underlying analysis engine for generating sentiment scores. 	| AMQP      	|
-| gatherer 	| Autonomous data gathering, provides input into the 'engine'. 		| AMQP      	|
 | view    	| A web-based frontend for viewing the data in a browser.           | - 			|
 
 ## The Concept

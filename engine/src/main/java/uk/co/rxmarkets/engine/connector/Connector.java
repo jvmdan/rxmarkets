@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.gatherer;
+package uk.co.rxmarkets.engine.connector;
 
 public interface Connector<T> {
 

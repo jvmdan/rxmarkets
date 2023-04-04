@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.gatherer;
+package uk.co.rxmarkets.engine;
 
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
