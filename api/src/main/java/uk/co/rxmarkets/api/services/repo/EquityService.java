@@ -34,10 +34,10 @@ public class EquityService implements Repository<Equity> {
     }
 
     public Uni<Equity> findSingleEquity(String market, String ticker) {
+        // TODO | What if there are identical tickers across different markets?
         return sf.withTransaction((s,t) -> s
                 .createNamedQuery("Equity.findSingle", Equity.class)
-                .setParameter("market", market.toUpperCase(Locale.ROOT))
-                .setParameter("ticker", ticker.toUpperCase(Locale.ROOT))
+                .setParameter("id", ticker.toUpperCase(Locale.ROOT))
                 .getSingleResult()
         );
     }

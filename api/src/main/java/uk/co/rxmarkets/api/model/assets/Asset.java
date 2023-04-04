@@ -4,6 +4,4 @@ public interface Asset {
 
     String getId();
 
-    String getTicker();
-
 }

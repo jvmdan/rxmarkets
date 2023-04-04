@@ -17,14 +17,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-@NamedQuery(name = "Equity.findAll", query = "SELECT e FROM Equity e ORDER BY e.ticker")
-@NamedQuery(name = "Equity.findMarket", query = "SELECT e FROM Equity e WHERE e.market = :market ORDER BY e.ticker")
-@NamedQuery(name = "Equity.findSingle", query = "SELECT e FROM Equity e WHERE e.market = :market AND e.ticker = :ticker ORDER BY e.ticker")
+@NamedQuery(name = "Equity.findAll", query = "SELECT e FROM Equity e ORDER BY e.id")
+@NamedQuery(name = "Equity.findMarket", query = "SELECT e FROM Equity e WHERE e.market = :market ORDER BY e.id")
+@NamedQuery(name = "Equity.findSingle", query = "SELECT e FROM Equity e WHERE e.id = :id")
 public class Equity implements Asset {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
 //    @ManyToOne
@@ -32,8 +30,6 @@ public class Equity implements Asset {
 //    private EquityMarket market;r
 
     private String market;
-
-    private String ticker;
 
     @OneToMany(mappedBy = "equity", cascade = CascadeType.ALL)
     @JsonIgnore
