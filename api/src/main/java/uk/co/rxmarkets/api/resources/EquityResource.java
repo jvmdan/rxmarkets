@@ -25,7 +25,7 @@ public class EquityResource {
 
     @GET
     public Uni<List<EquityMarket>> getSupportedMarkets() {
-        return marketService.findEquityMarkets();
+        return marketService.findAll();
     }
 
     @GET

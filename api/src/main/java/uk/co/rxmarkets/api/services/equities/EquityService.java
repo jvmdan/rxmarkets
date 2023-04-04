@@ -34,7 +34,7 @@ public class EquityService implements Repository<Equity> {
         // TODO | What if there are identical tickers across different markets?
         return sf.withTransaction((s,t) -> s
                 .createNamedQuery("Equity.findSingle", Equity.class)
-                .setParameter("id", ticker.toUpperCase(Locale.ROOT))
+                .setParameter("ticker", ticker.toUpperCase(Locale.ROOT))
                 .getSingleResult()
 //                .onItem().call(equity -> Mutiny.fetch(equity.getScores()))
         );

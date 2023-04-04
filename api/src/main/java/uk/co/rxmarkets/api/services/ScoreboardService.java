@@ -20,7 +20,7 @@ public class ScoreboardService implements Repository<Scoreboard> {
     public Uni<List<Scoreboard>> findByEquity(Equity equity) {
         return sf.withTransaction((s,t) -> s
                 .createNamedQuery("Scoreboard.findForEquity", Scoreboard.class)
-                .setParameter("equityId", equity.getId())
+                .setParameter("ticker", equity.getTicker())
                 .getResultList()
         );
     }

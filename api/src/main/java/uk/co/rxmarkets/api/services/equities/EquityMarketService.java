@@ -18,7 +18,7 @@ public class EquityMarketService implements Repository<EquityMarket> {
 
     private final Mutiny.SessionFactory sf;
 
-    public Uni<List<EquityMarket>> findEquityMarkets() {
+    public Uni<List<EquityMarket>> findAll() {
         return sf.withTransaction((s,t) -> s
                 .createNamedQuery("EquityMarket.findAll", EquityMarket.class)
                 .getResultList()

@@ -12,7 +12,9 @@ import uk.co.rxmarkets.api.model.markets.EquityMarket;
 import uk.co.rxmarkets.api.model.scoring.Scoreboard;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,23 +24,26 @@ import java.util.Set;
 @NoArgsConstructor
 @Slf4j
 @NamedQuery(name = "Equity.findMarket", query = "SELECT e FROM Equity e WHERE e.market.id = :marketId ORDER BY e.id")
-@NamedQuery(name = "Equity.findSingle", query = "SELECT e FROM Equity e WHERE e.id = :id")
+@NamedQuery(name = "Equity.findSingle", query = "SELECT e FROM Equity e WHERE e.ticker = :ticker")
 public class Equity implements Asset {
 
     @Id
-    private String id;
+    private String ticker;
 
     @ManyToOne
     @JoinColumn(name = "market_id", insertable = false, updatable = false)
-    @JsonManagedReference
+    @JsonIgnore
     private EquityMarket market;
 
-    public String getMarket() {
-        return market.getId();
-    }
+    private String name;
 
-    public Scoreboard getLatest() {
-        return null; // TODO | Grab the latest scoreboard instance?
+    @OneToMany(mappedBy = "equity", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Scoreboard> scores;
+
+    public String getMarket() {
+        // Override the default JSON behaviour and return only the market ID.
+        return market.getId();
     }
 
 }

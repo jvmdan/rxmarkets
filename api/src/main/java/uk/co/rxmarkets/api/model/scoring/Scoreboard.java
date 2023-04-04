@@ -1,28 +1,28 @@
 package uk.co.rxmarkets.api.model.scoring;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import uk.co.rxmarkets.api.model.assets.Equity;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "scoreboards")
+@Table(name = "equity_scores")
 @Data
 @NoArgsConstructor
 @Getter
 @NamedQuery(name = "Scoreboard.findAll", query = "SELECT s FROM Scoreboard s")
-@NamedQuery(name = "Scoreboard.findForEquity", query = "SELECT s FROM Scoreboard s WHERE s.equity.id = :equityId")
+@NamedQuery(name = "Scoreboard.findForEquity", query = "SELECT s FROM Scoreboard s WHERE s.equity.ticker = :ticker")
 public class Scoreboard {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String uuid;
 
     @ManyToOne
     @JoinColumn(name = "equity_id", insertable = false, updatable = false)
@@ -30,6 +30,10 @@ public class Scoreboard {
     private Equity equity;
 
     private Date date;
+
+    public String getTicker() {
+        return equity.getTicker();
+    }
 
 //    private Map<Category, Indicator> scores;
 //
