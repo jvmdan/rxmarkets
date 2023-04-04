@@ -4,14 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import uk.co.rxmarkets.api.model.assets.Equity;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
 
 @Entity
-@Table(name = "equity_scores")
+@Table(name = "scoreboards")
 @Data
 @NoArgsConstructor
 @Getter
@@ -29,14 +32,20 @@ public class Scoreboard {
     @JsonIgnore
     private Equity equity;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     public String getTicker() {
         return equity.getTicker();
     }
 
-//    private Map<Category, Indicator> scores;
-//
+    @ElementCollection
+    @CollectionTable(name = "equity_scores", joinColumns = {@JoinColumn(name = "scoreboard_id", referencedColumnName = "uuid")})
+    @MapKeyColumn(name = "category")
+    @Column(name = "score")
+    @Fetch(FetchMode.JOIN)
+    private Map<String, Double> scores;
+
 //    public Indicator getScore(Category forCategory) {
 //        return scores.get(forCategory);
 //    }
