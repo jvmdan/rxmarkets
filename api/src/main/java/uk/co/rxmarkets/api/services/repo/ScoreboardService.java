@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.services;
+package uk.co.rxmarkets.api.services.repo;
 
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
@@ -9,12 +9,11 @@ import uk.co.rxmarkets.api.model.scoring.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-import java.util.Locale;
 
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
-public class ScoreboardService {
+public class ScoreboardService implements Repository<Scoreboard> {
 
     private final Mutiny.SessionFactory sf;
 

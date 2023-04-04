@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import uk.co.rxmarkets.api.services.EquityService;
+import uk.co.rxmarkets.api.services.repo.EquityService;
 import uk.co.rxmarkets.api.services.FileService;
 
 import javax.enterprise.context.ApplicationScoped;

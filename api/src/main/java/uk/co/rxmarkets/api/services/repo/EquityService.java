@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.services;
+package uk.co.rxmarkets.api.services.repo;
 
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Locale;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
-public class EquityService {
+public class EquityService implements Repository<Equity> {
 
     private final Mutiny.SessionFactory sf;
 
