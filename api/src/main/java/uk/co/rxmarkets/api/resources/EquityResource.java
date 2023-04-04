@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import uk.co.rxmarkets.api.model.assets.Equity;
 import uk.co.rxmarkets.api.model.markets.EquityMarket;
 import uk.co.rxmarkets.api.model.scoring.Scoreboard;
-import uk.co.rxmarkets.api.services.repo.EquityService;
-import uk.co.rxmarkets.api.services.repo.MarketService;
-import uk.co.rxmarkets.api.services.repo.ScoreboardService;
+import uk.co.rxmarkets.api.services.equities.EquityService;
+import uk.co.rxmarkets.api.services.equities.EquityMarketService;
+import uk.co.rxmarkets.api.services.ScoreboardService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,7 +20,7 @@ import java.util.List;
 public class EquityResource {
 
     private final EquityService equityService;
-    private final MarketService marketService;
+    private final EquityMarketService marketService;
     private final ScoreboardService scoreboardService;
 
     @GET

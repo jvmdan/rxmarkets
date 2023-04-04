@@ -12,6 +12,7 @@ import uk.co.rxmarkets.api.model.markets.EquityMarket;
 import uk.co.rxmarkets.api.model.scoring.Scoreboard;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,10 +32,6 @@ public class Equity implements Asset {
     @JoinColumn(name = "market_id", insertable = false, updatable = false)
     @JsonManagedReference
     private EquityMarket market;
-
-//    @OneToMany(mappedBy = "equity", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private Set<Scoreboard> scores;
 
     public String getMarket() {
         return market.getId();

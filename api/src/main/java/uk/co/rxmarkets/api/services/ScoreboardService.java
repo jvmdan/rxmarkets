@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.services.repo;
+package uk.co.rxmarkets.api.services;
 
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;

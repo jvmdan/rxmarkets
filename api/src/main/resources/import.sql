@@ -1,7 +1,7 @@
 -- Preconfigure the database with the supported markets.
-INSERT INTO markets (id, name) VALUES ('XNAS', 'Nasdaq');
-INSERT INTO markets (id, name) VALUES ('XNYS', 'New York Stock Exchange (NYSE)');
-INSERT INTO markets (id, name) VALUES ('XLON', 'London Stock Exchange (LSE)');
+INSERT INTO equity_markets (id, name) VALUES ('XNAS', 'Nasdaq');
+INSERT INTO equity_markets (id, name) VALUES ('XNYS', 'New York Stock Exchange (NYSE)');
+INSERT INTO equity_markets (id, name) VALUES ('XLON', 'London Stock Exchange (LSE)');
 
 -- Preconfigure the database with the supported equities.
 INSERT INTO equities (id, market_id) VALUES ('AAPL', 'XNAS');

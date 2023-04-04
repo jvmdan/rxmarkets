@@ -1,13 +1,12 @@
-package uk.co.rxmarkets.api.services.repo;
+package uk.co.rxmarkets.api.services.equities;
 
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.reactive.mutiny.Mutiny;
-import uk.co.rxmarkets.api.model.assets.Equity;
 import uk.co.rxmarkets.api.model.markets.EquityMarket;
-import uk.co.rxmarkets.api.model.markets.Market;
+import uk.co.rxmarkets.api.services.Repository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Slf4j
-public class MarketService implements Repository<Market> {
+public class EquityMarketService implements Repository<EquityMarket> {
 
     private final Mutiny.SessionFactory sf;
 

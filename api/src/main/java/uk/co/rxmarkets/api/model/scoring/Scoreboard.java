@@ -22,7 +22,6 @@ public class Scoreboard {
 
     @Id
     @GeneratedValue
-    @JsonIgnore
     private Long id;
 
     @ManyToOne

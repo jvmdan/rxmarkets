@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import uk.co.rxmarkets.api.model.assets.Equity;
 
 import javax.persistence.*;
@@ -14,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "markets")
+@Table(name = "equity_markets")
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j

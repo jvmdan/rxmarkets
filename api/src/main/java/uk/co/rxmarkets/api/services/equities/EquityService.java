@@ -1,12 +1,12 @@
-package uk.co.rxmarkets.api.services.repo;
+package uk.co.rxmarkets.api.services.equities;
 
-import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.reactive.mutiny.Mutiny;
 import uk.co.rxmarkets.api.model.assets.Equity;
 import uk.co.rxmarkets.api.model.scoring.Scoreboard;
+import uk.co.rxmarkets.api.services.Repository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
@@ -24,9 +24,9 @@ public class EquityService implements Repository<Equity> {
                 .createNamedQuery("Equity.findMarket", Equity.class)
                 .setParameter("marketId", market.toUpperCase(Locale.ROOT))
                 .getResultList()
-                .onItem().transformToMulti(Multi.createFrom()::iterable)
+//                .onItem().transformToMulti(Multi.createFrom()::iterable)
 //                .onItem().call(equity -> Mutiny.fetch(equity.getScores()))
-                .collect().asList()
+//                .collect().asList()
         );
     }
 
