@@ -1,4 +1,4 @@
-package uk.co.rxmarkets.api.entities.scoring;
+package uk.co.rxmarkets.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
-import uk.co.rxmarkets.api.entities.assets.Equity;
 
 import javax.persistence.*;
 import java.util.Date;

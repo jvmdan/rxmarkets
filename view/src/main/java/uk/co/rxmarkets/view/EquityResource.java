@@ -7,7 +7,7 @@ import io.quarkus.qute.TemplateInstance;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jboss.resteasy.reactive.RestQuery;
-import uk.co.rxmarkets.api.entities.scoring.Scoreboard;
+import uk.co.rxmarkets.api.entities.Scoreboard;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -1,11 +1,10 @@
-package uk.co.rxmarkets.api.entities.markets;
+package uk.co.rxmarkets.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.api.entities.assets.Equity;
 
 import javax.persistence.*;
 import java.util.Set;

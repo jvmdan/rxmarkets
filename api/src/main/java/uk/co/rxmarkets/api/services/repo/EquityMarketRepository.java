@@ -5,7 +5,7 @@ import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.reactive.mutiny.Mutiny;
-import uk.co.rxmarkets.api.entities.markets.EquityMarket;
+import uk.co.rxmarkets.api.entities.EquityMarket;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.WebApplicationException;

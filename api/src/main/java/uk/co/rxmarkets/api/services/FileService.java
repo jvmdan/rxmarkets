@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.smallrye.mutiny.Uni;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.api.entities.scoring.Scoreboard;
+import uk.co.rxmarkets.api.entities.Scoreboard;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;

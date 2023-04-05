@@ -2,15 +2,14 @@ package uk.co.rxmarkets.api.resources;
 
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
-import uk.co.rxmarkets.api.entities.assets.Equity;
-import uk.co.rxmarkets.api.entities.markets.EquityMarket;
-import uk.co.rxmarkets.api.entities.scoring.Scoreboard;
+import uk.co.rxmarkets.api.entities.Equity;
+import uk.co.rxmarkets.api.entities.EquityMarket;
+import uk.co.rxmarkets.api.entities.Scoreboard;
 import uk.co.rxmarkets.api.services.repo.EquityMarketRepository;
 import uk.co.rxmarkets.api.services.repo.EquityRepository;
 import uk.co.rxmarkets.api.services.repo.ScoreboardRepository;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("api/equities")
