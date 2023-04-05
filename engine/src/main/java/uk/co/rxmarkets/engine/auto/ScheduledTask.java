@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class ScheduledTask {
 
-    private final AtomicInteger counter = new AtomicInteger();
+    private static final AtomicInteger COUNTER = new AtomicInteger();
     private final Emitter<EngineRequest> emitter;
     private final boolean enabled;
 
@@ -29,7 +29,7 @@ public class ScheduledTask {
     void scheduledTask() {
         // TODO | Gather a data set from all available sources & propagate downstream.
         if (enabled) {
-            final int count = counter.incrementAndGet();
+            final int count = COUNTER.incrementAndGet();
             log.info("Scheduled job executed! [n={}]", count);
             final EngineRequest request = new EngineRequest("XNAS", "MSFT", Collections.emptySet());
             emitter.send(request);
