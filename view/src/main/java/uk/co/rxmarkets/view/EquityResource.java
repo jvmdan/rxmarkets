@@ -41,7 +41,7 @@ public class EquityResource {
     @Produces(MediaType.TEXT_HTML)
     @SneakyThrows
     public TemplateInstance get(@RestQuery String market, @RestQuery String ticker) {
-        final URL source = new URL(config.getBaseUrl() + "/scores/" + market + "/" + ticker);
+        final URL source = new URL(config.getBaseUrl() + market + "/" + ticker + "/");
         final Scoreboard[] scores = mapper.readValue(source, Scoreboard[].class);
         return EquityResource.Templates.view(market, ticker, Arrays.asList(scores));
     }
@@ -52,8 +52,8 @@ public class EquityResource {
      * within the HTML template. Simply call '.halveScore' on your given object.
      */
     @TemplateExtension
-    static BigDecimal halveScore(Indicator i) {
-        return BigDecimal.valueOf(i.score()).multiply(new BigDecimal("0.5"));
+    static BigDecimal halveScore(Double i) {
+        return BigDecimal.valueOf(i).multiply(new BigDecimal("0.5"));
     }
 
 }
