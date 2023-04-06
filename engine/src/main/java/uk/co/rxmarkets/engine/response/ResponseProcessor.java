@@ -41,8 +41,10 @@ public class ResponseProcessor {
         });
 
         // Persist the scoreboard to the database & return in a Uni.
-        return scoreboard.onItem().transformToUni(sboard ->
-                sf.withTransaction((s, t) -> s.persist(sboard)).replaceWith(sboard));
+        return scoreboard.onItem().transformToUni(sboard -> {
+            log.info("Triggered persistence of scoreboard [ticker={},date={}]", sboard.getTicker(), sboard.getDate());
+            return sf.withTransaction((s, t) -> s.persist(sboard)).replaceWith(sboard);
+        });
     }
 
 }

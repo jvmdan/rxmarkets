@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-//@ApplicationScoped
+@ApplicationScoped
 public class OpenAiEngine implements Engine {
 
     private final String model;
@@ -32,6 +32,7 @@ public class OpenAiEngine implements Engine {
         this.model = properties.getProperty("model");
         this.token = properties.getProperty("token");
         this.prompt = properties.getProperty("prompt");
+        if (token == null || token.isBlank()) throw new IllegalArgumentException("No OpenAI token specified.");
         this.service = new OpenAiService(token);
         log.info("Configured OpenAI with \"{}\" model", model);
     }

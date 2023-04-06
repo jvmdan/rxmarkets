@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Daniel Scarfe
  */
-@ApplicationScoped // FIXME ~ This is useful in testing but will later be removed.
+//@ApplicationScoped // FIXME ~ This is useful in testing but will later be removed.
 public class RandomEngine implements Engine {
 
     @Override

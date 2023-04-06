@@ -2,9 +2,12 @@ package uk.co.rxmarkets.engine.requests;
 
 import io.smallrye.mutiny.Uni;
 import io.smallrye.reactive.messaging.annotations.Blocking;
+import io.smallrye.reactive.messaging.rabbitmq.IncomingRabbitMQMetadata;
 import io.vertx.core.json.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.reactive.messaging.Acknowledgment;
+import org.eclipse.microprofile.reactive.messaging.Acknowledgment.Strategy;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import uk.co.rxmarkets.engine.Engine;
@@ -12,6 +15,8 @@ import uk.co.rxmarkets.engine.model.Category;
 import uk.co.rxmarkets.engine.response.EngineResponse;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 /**
