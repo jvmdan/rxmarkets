@@ -34,10 +34,6 @@ public class EngineResponse {
         private final Date date;
         private final HashMap<String, Double> scores = new HashMap<>();
 
-        public Builder(EngineRequest request) {
-            this(request, Date.from(Instant.now()));
-        }
-
         public Builder(EngineRequest request, Date date) {
             this.requestId = request.getId();
             this.market = request.getMarket();

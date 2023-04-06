@@ -12,7 +12,6 @@ import uk.co.rxmarkets.engine.response.EngineResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * A bean consuming data from the "request" RabbitMQ queue and giving out a random quote.
@@ -30,7 +29,7 @@ public class RequestProcessor {
     @Blocking
     public EngineResponse process(JsonObject json) {
         final EngineRequest request = json.mapTo(EngineRequest.class);
-        final EngineResponse.Builder result = new EngineResponse.Builder(request);
+        final EngineResponse.Builder result = new EngineResponse.Builder(request, request.getDate());
         Arrays.stream(Category.values()).forEach(c -> {
             final double score = engine.score(c.name(), request.getDataSet());
             result.addScore(c.name(), score);

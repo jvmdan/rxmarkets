@@ -19,7 +19,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -52,8 +57,11 @@ public class StartupTask {
                         .map(this::unpackJson)
                         .forEach(dataSet -> {
                             // We have extracted our dataset, so we propagate downstream to be processed by the engine.
-                            // TODO | This needs to determine the 'market' and 'ticker' programmatically.
-                            final EngineRequest request = new EngineRequest("XNAS", "TSLA", dataSet);
+                            final String[] parameters = splitPath(dataSet.iterator().next().getSource());
+                            final String market = parameters[1].toUpperCase(Locale.ROOT);
+                            final String ticker = parameters[2].toUpperCase(Locale.ROOT);
+                            final String date = parameters[3].substring(parameters[3].lastIndexOf("_") + 1, parameters[3].lastIndexOf(".json"));
+                            final EngineRequest request = new EngineRequest(market, ticker, dataSet, parseDate(date));
                             emitter.send(request);
                             log.info("Sent request for processing: {}", request.getId());
                         });
@@ -75,6 +83,19 @@ public class StartupTask {
                     results.add(data);
                 });
         return results;
+    }
+
+    private static String[] splitPath(String filePath) {
+        return filePath.substring(filePath.lastIndexOf("static")).split("/");
+    }
+
+    private static Date parseDate(String dateString) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            return Date.from(Instant.now());
+        }
     }
 
 }

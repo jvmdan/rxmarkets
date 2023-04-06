@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.engine.model.Opinion;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-//@ApplicationScoped
+@ApplicationScoped
 public class OpenAiEngine implements Engine {
 
     private final String model;
