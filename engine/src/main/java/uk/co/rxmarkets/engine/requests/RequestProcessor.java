@@ -1,5 +1,6 @@
 package uk.co.rxmarkets.engine.requests;
 
+import io.smallrye.mutiny.Uni;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.vertx.core.json.JsonObject;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +27,18 @@ public class RequestProcessor {
 
     @Incoming("requests")
     @Outgoing("response")
-    @Blocking
-    public EngineResponse process(JsonObject json) {
-        final EngineRequest request = json.mapTo(EngineRequest.class);
-        final EngineResponse.Builder result = new EngineResponse.Builder(request, request.getDate());
-        Arrays.stream(Category.values()).forEach(c -> {
-            final double score = engine.score(c.name(), request.getDataSet());
-            result.addScore(c.name(), score);
+    // FIXME | This should be performed concurrently, with a maximum number of consumers.
+    public Uni<EngineResponse> process(JsonObject json) {
+        return Uni.createFrom().item(() -> {
+            final EngineRequest request = json.mapTo(EngineRequest.class);
+            final EngineResponse.Builder result = new EngineResponse.Builder(request, request.getDate());
+            Arrays.stream(Category.values()).forEach(c -> {
+                final double score = engine.score(c.name(), request.getDataSet());
+                result.addScore(c.name(), score);
+            });
+            log.info("Created EngineResult instance for request: {}", request);
+            return result.build();
         });
-        log.info("Created EngineResult instance for request: {}", request);
-        return result.build();
     }
 
 }

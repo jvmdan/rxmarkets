@@ -27,12 +27,12 @@ public class ResponseProcessor {
      */
     @Incoming("response")
     public Uni<Scoreboard> onResponse(EngineResponse response) {
-        // TODO | This will only persist if the equity exists, which may or may not be desirable.
         // Retrieve the equity instance from our database.
-        final Uni<Equity> equity = sf.withTransaction((s,t) -> s.find(Equity.class, response.getTicker()));
+        log.info("Received response for request: {}", response.getRequestId());
+        final Uni<Equity> equity = sf.withTransaction((s, t) -> s.find(Equity.class, response.getTicker()));
 
         // Now we can create a new scoreboard instance, tied to our equity.
-        final Uni<Scoreboard> scoreboard = equity.onItem().ifNotNull().transform((e) -> {
+        final Uni<Scoreboard> scoreboard = equity.onItem().ifNotNull().transform(e -> {
             final Scoreboard s = new Scoreboard();
             s.setEquity(e);
             s.setDate(response.getDate());
@@ -41,7 +41,8 @@ public class ResponseProcessor {
         });
 
         // Persist the scoreboard to the database & return in a Uni.
-        return scoreboard.onItem().call((sboard) -> sf.withTransaction((s, t) -> s.persist(sboard)));
+        return scoreboard.onItem().transformToUni(sboard ->
+                sf.withTransaction((s, t) -> s.persist(sboard)).replaceWith(sboard));
     }
 
 }

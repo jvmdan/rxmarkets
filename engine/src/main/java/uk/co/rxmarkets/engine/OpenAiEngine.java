@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-@ApplicationScoped
+//@ApplicationScoped
 public class OpenAiEngine implements Engine {
 
     private final String model;
