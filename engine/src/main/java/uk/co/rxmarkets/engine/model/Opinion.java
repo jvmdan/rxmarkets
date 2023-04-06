@@ -12,14 +12,9 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class Opinion implements Ranked {
+public class Opinion {
 
     private final String source;
     private final String data;
-
-    @Override
-    public String getData() {
-        return data;
-    }
 
 }

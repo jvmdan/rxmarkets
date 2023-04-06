@@ -1,6 +1,6 @@
 package uk.co.rxmarkets.engine;
 
-import uk.co.rxmarkets.engine.model.Ranked;
+import uk.co.rxmarkets.engine.model.Opinion;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Set;
@@ -16,7 +16,7 @@ import java.util.Set;
 public class RandomEngine implements Engine {
 
     @Override
-    public double score(String category, Set<Ranked> data) {
+    public double score(String category, Set<Opinion> data) {
         final double scale = Math.pow(10, 5);
         return Math.round(Math.random() * scale) / scale;
     }

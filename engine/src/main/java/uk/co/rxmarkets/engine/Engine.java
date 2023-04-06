@@ -1,6 +1,6 @@
 package uk.co.rxmarkets.engine;
 
-import uk.co.rxmarkets.engine.model.Ranked;
+import uk.co.rxmarkets.engine.model.Opinion;
 
 import java.util.Set;
 
@@ -13,6 +13,6 @@ import java.util.Set;
  */
 public interface Engine {
 
-    double score(String category, Set<Ranked> data);
+    double score(String category, Set<Opinion> data);
 
 }

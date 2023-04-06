@@ -8,7 +8,7 @@ import com.theokanning.openai.service.OpenAiService;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.co.rxmarkets.engine.model.Ranked;
+import uk.co.rxmarkets.engine.model.Opinion;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class OpenAiEngine implements Engine {
     }
 
     @Override
-    public double score(String category, Set<Ranked> data) {
+    public double score(String category, Set<Opinion> data) {
         log.info("Scoring {} across {} data points...", category, data.size());
         List<Double> scores = data.stream()
                 .map(message -> generateScore(category, message.getData()))
