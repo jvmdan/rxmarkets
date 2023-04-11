@@ -21,8 +21,8 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @Getter
-@NamedQuery(name = "Scoreboard.findAll", query = "SELECT s FROM Scoreboard s")
-@NamedQuery(name = "Scoreboard.findForEquity", query = "SELECT s FROM Scoreboard s WHERE s.equity.ticker = :ticker")
+@NamedQuery(name = "Scoreboard.findAll", query = "SELECT s FROM Scoreboard s ORDER BY s.date")
+@NamedQuery(name = "Scoreboard.findForEquity", query = "SELECT s FROM Scoreboard s WHERE s.equity.ticker = :ticker ORDER BY s.date")
 public class Scoreboard {
 
     @Id
