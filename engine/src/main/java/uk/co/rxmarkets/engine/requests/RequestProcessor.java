@@ -8,7 +8,7 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import uk.co.rxmarkets.engine.Engine;
-import uk.co.rxmarkets.engine.model.Category;
+import uk.co.rxmarkets.engine.model.Prompts;
 import uk.co.rxmarkets.engine.response.EngineResponse;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -33,9 +33,11 @@ public class RequestProcessor {
     public EngineResponse process(JsonObject json) {
         final EngineRequest request = json.mapTo(EngineRequest.class);
         final EngineResponse.Builder result = new EngineResponse.Builder(request, request.getDate());
-        Arrays.stream(Category.values()).forEach(c -> {
-            final double score = engine.score(c.name(), request.getDataSet());
+        Arrays.stream(Prompts.values()).forEach(c -> {
+            log.info("Scoring {} across {} data points...", c.name(), request.getDataSet().size());
+            final double score = engine.score(c.getPrompt(), request.getDataSet());
             result.addScore(c.name(), score);
+            log.info("Average score for {}: {}", c.name(), score);
         });
         log.info("Created EngineResult instance for request: {}", request);
         return result.build();

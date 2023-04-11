@@ -10,6 +10,10 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.rxmarkets.engine.model.Opinion;
 
+import java.time.Duration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -24,16 +28,14 @@ public class OpenAiEngine implements Engine {
 
     private final String model;
     private final String token;
-    private final String prompt;
     private final OpenAiService service;
 
     public OpenAiEngine() {
         final Properties properties = loadProperties();
         this.model = properties.getProperty("model");
         this.token = properties.getProperty("token");
-        this.prompt = properties.getProperty("prompt");
         if (token == null || token.isBlank()) throw new IllegalArgumentException("No OpenAI token specified.");
-        this.service = new OpenAiService(token);
+        this.service = new OpenAiService(token, Duration.ofSeconds(30));
         log.info("Configured OpenAI with \"{}\" model", model);
     }
 
@@ -47,19 +49,16 @@ public class OpenAiEngine implements Engine {
     }
 
     @Override
-    public double score(String category, Set<Opinion> data) {
-        log.info("Scoring {} across {} data points...", category, data.size());
+    public double score(String prompt, Set<Opinion> data) {
         List<Double> scores = data.stream()
-                .map(message -> generateScore(category, message.getData()))
-                .filter(score -> score != -1).toList();
-        double average = scores.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-        log.info("Average score for {}: {}", category, average);
-        return average;
+                .map(message -> generateScore(prompt, message.getData()))
+                .filter(score -> score != -1.0).toList();
+        return scores.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
     }
 
-    private Double generateScore(String category, String message) {
+    private Double generateScore(String prompt, String message) {
         List<ChatMessage> messages = new ArrayList<>();
-        messages.add(new ChatMessage("system", prompt + " " + category));
+        messages.add(new ChatMessage("system", prompt));
         messages.add(new ChatMessage("user", message));
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(messages)
@@ -68,13 +67,18 @@ public class OpenAiEngine implements Engine {
         ChatCompletionResult completion = service.createChatCompletion(completionRequest);
         ChatCompletionChoice chatCompletionChoice = completion.getChoices().stream().findFirst().orElseThrow();
         String reply = chatCompletionChoice.getMessage().getContent();
-        double result = -1;
-        try {
-            result = Double.parseDouble(reply);
-        } catch (Exception e) {
-            log.warn("Could not parse response: {} the original request data was: {}", reply, message);
+        return extractDouble(reply);
+    }
+
+    private static Double extractDouble(String input) {
+        Pattern pattern = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            return Double.parseDouble(matcher.group());
+        } else {
+            log.warn("Could not parse response: {}", input);
+            return -1.0;
         }
-        return result;
     }
 
 }

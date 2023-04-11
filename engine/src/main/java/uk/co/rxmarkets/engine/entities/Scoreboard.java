@@ -1,20 +1,16 @@
 package uk.co.rxmarkets.engine.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
-import uk.co.rxmarkets.engine.model.Category;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 @Entity
 @Table(name = "scoreboards")
